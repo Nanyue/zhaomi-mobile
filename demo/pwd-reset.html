@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>重置密码</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="//zhaomi.biz/m/lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="//zhaomi.biz/m/build/login.js"></script>
+</head>
+<body>
+<div class="wrapper" id="pageReset">
+    <div class="header">
+        <a href="/" class="zhaomi">找米</a> <a href="/" class="cancel-login"><i class="zui-icon icon-close"></i>取消重置</a>
+    </div>
+    <div class="login-title zui-align-center">重置密码</div>
+    <div class="access-box">
+        <form action="//zhaomi.biz/login" method="post">
+
+            <div class="user-header">
+                <div class="img">
+                    <img src="//zhaomi.biz/m/assets/img/user.png" alt="" class=""/>
+                </div>
+                <span class="user-name">力皓</span>
+            </div>
+            <div class="input-wrapper zui-flex">
+                <div class="zui-flex-fixed icon"><i class="zui-icon icon-pwd"></i></div>
+                <div class="zui-cell"><input type="text" maxlength="25"  id="username" name="username" class="zui-cell" placeholder="请输入您的新密码"/></div>
+            </div>
+            <div class="input-wrapper zui-flex">
+                <div class="zui-flex-fixed icon"><i class="zui-icon icon-lock"></i></div>
+                <div class="zui-cell"><input type="text" id="pwd" name="pwd" class="zui-cell" placeholder="请再次输入您的新密码"/></div>
+            </div>
+
+
+            <div class="zui-align-right bottom-text">
+                <button type="submit" class="zui-btn zui-btn-action login-btn">提交</button>
+            </div>
+
+
+            <div class="verify-result-msg ">
+                <div class="input-wrapper zui-flex error">
+                    <div class="zui-flex-fixed icon"><i class="zui-icon icon-lock"></i></div>
+                    <div class="zui-cell"><span class="verify-pwd">*****</span><span class="error-text">密码不匹配</span></div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

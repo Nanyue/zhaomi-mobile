@@ -1,0 +1,90 @@
+@import '../normalize/normalize.css';
+@import "../../less/zui";
+//======= function =======
+.bgImage(@path){
+  background-image: url("/modules/@{path}");
+}
+.bgImageFormAssets(@name){
+  background-image: url("/assets/img/@{name}")
+}
+.bgSize(@width, @height){
+   -webkit-background-size: @width @height;
+   background-size: @width @height;
+}
+.bgPosition(@left, @top){
+  background-position: @left @top;
+}
+//======= end function =======
+
+input, textarea{
+  .border-radius(0);
+}
+body{
+  font-size: 12px;
+}
+.text-overflow{
+  .text-overflow();
+}
+
+
+.zui-align-right {
+  text-align: right;
+  &>div{
+    display: inline-block;
+  }
+}
+
+.zui-align-center{
+  text-align: center;
+}
+.zui-link{
+  color:#4A90E2;
+  font-size: 12px;
+  text-decoration: underline;
+}
+.clearfix{
+  .clearfix();
+}
+
+.dialog{
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -100px;
+  background-color:#fff;
+  border: 1px solid #eee;
+  padding: 10px;
+
+  .box-shadow(0 1px 2px rgba(0, 0, 0, .2));
+
+  .tip-icon{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    background-color: #7ED321;
+    .border-radius(50%);
+    overflow: hidden;
+  }
+  .icon-success{
+    .bgPosition(0, -50px)
+  }
+
+  .dialog-bottom{
+    padding: 10px 0;
+  }
+  .text{
+    color:#727272;
+    font-size: 12px;
+    padding: 10px 0;
+  }
+}
+
+@import "./header";
+@import "./icon";
+@import "./top-tab";
+@import "./activity-list-item";
+@import "../../common/pkgs/selector/radio-checkbox.less";
+@import "../../common/pkgs/input/input.less";

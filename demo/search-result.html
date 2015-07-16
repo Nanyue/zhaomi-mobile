@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>活动列表页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="//zhaomi.biz/m/lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="//zhaomi.biz/build/list.js"></script>
+</head>
+<body>
+
+<div class="wrapper" id="pageSearchList">
+    <div class="header zui-flex">
+        <div class="zui-cell logo-warp">
+            <div class="logo item">找米</div>
+            <div class="city item"  data-select-area="true" data-select-target="#NowProvince,#NowCity" data-select-title="请选择省份">地区选择 <i class="item zui-icon icon-arrow-up"></i></div>
+
+        </div>
+        <div class="nav">
+            <a href="//zhaomi.biz/m/demo/search.html" class="nav-item">
+                <i class="zui-icon icon-search"></i>
+            </a>
+
+            <!--<div class="zui-cell zui-flex-fixed">-->
+            <!--<div class="zui-btn zui-btn-pic btn-publish"><i class="zui-icon icon-plus"></i>发布活动</div>-->
+            <!--</div>-->
+            <a href="//zhaomi.biz/m/demo/create-action-1.html" class="nav-item">
+                <i class="zui-icon icon-plus"></i>
+            </a>
+            <a href="//zhaomi.biz/m/demo/login.html" class="nav-item btn-login">
+                <span>登录</span>
+            </a>
+        </div>
+    </div>
+    <div class="banner">
+
+        <ul>
+            <li><img src="/m/modules/list/img/banner.jpg" alt=""/></li>
+            <li><img src="/m/modules/list/img/banner.jpg" alt=""/></li>
+            <li><img src="/m/modules/list/img/banner.jpg" alt=""/></li>
+
+        </ul>
+    </div>
+    <div class="main">
+        <div class="tab-wrapper" id="cateList">
+            <div class="tab zui-flex">
+                <div class="tab-item zui-cell ">找米热门 <i class="zui-icon icon-arrow-up"></i></div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-content-item">
+                    <ul class="clearfix" data-type-name="hot">
+                        <li class="active"><a data-type="0">热门推荐</a></li>
+                        <li><a  data-type="1" >限时报名</a></li>
+                        <li><a  data-type="2">限额报名</a></li>
+                        <li><a  data-type="3">奖励金额</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="activity-lists">
+            <a href="./detail.html" class="activity-list-item ">
+                <div class="zui-flex">
+                    <div class="btn-forward">
+                        <i class="zui-icon icon-forward"></i>
+                    </div>
+                    <div class="btn-like">
+                        <i class="zui-icon icon-like"></i>
+                    </div>
+                    <img src="//zhaomi.biz/m/modules/list/img/banner.jpg" alt=""/>
+                </div>
+
+                <div class="list-item-desc">
+                    <div class="tt-wrapper">
+                        <h3 class="tt ">
+                            护肤品家具
+
+                        </h3>
+                        <div class="item m-tag">
+                            <span class="m-tag-inner"><span class="hot">热门推荐</span><span class="price">￥600</span></span>
+                        </div>
+                    </div>
+
+                    <div class="item zui-flex">
+                        <div class="zui-cell">
+                            <div class="address"><i class="zui-icon icon-address"></i>北京市海淀区颐和园东路</div>
+                        </div>
+                        <div class="zui-cell zui-flex-fixed">
+                            <div class="number"><i class="zui-icon icon-number"></i> 7/17</div>
+                        </div>
+                    </div>
+                    <div class="item zui-flex">
+                        <div class="zui-cell">
+                            <div class="date"><i class="zui-icon icon-date"></i>15/6/24 13:00 - 15/7/23     </div>
+                        </div>
+                        <div class="zui-cell zui-flex-fixed">
+                            <div class="distance"><i class="zui-icon icon-distance"></i>1d30h</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </a>
+        </div>
+    </div>
+
+</div>
+<!--下拉弹出部分 end-->
+<div class="selectdialog" id="SelectDialog">
+    <div class="select-dia-mask">
+    </div>
+    <div class="select-dia-table">
+        <div class="select-dia-cell">
+            <div class="select-dia ">
+            </div>
+        </div>
+    </div>
+</div>
+<script id="dialogarea" type="text/html">
+    <h3>{{title}}</h3>
+    <div class="select-dia-con">
+        <ul class="area select-dia-list">
+            {{each list as value i}}
+            <li data-value="{{value.Value}}" data-index="{{value.Key}}" class="select-area-check" data-target="{{target}}">{{value.Value}}</li>
+            {{/each}}
+        </ul>
+    </div>
+</script>
+
+</body>
+</html>
