@@ -4,6 +4,8 @@ require('../../../lib/unslider/unslider');
 require('../../../lib/event-swipe/event-swipe');
 var city = require('../../../lib/city/city');
 var libUtil = require('../../../lib/common/util');
+var common = require('../../../lib/common/common.js');
+
 $(function() {
 
     var main = {

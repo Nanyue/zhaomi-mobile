@@ -1,6 +1,6 @@
 require('../../../common/pkgs/button/button');
 require('../css/activity');
-
+var common = require('../../../lib/common/common.js');
 $(function() {
 
     var main = {

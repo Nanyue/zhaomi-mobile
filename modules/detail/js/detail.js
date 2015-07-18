@@ -3,7 +3,7 @@ require('../css/detail');
 require('../../../lib/jquery-form/jquery.form');
 require('../../../lib/jquery-form/validform');
 require('../../../lib/jquery-form/validform.less');
-
+var common = require('../../../lib/common/common.js');
 $(function() {
     var main = {
         init: function() {
