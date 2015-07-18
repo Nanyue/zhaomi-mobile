@@ -67,13 +67,13 @@
                 <li>
                     <div class="active-name">活动名称</div>
                     <div class="input-wrapper">
-                        <input type="text" class="zui-input-text" value="" id="name" placeholder="请输入活动名称"/>
+                        <input type="text" class="zui-input-text" value="" id="name" data-required="true" placeholder="请输入活动名称"/>
                     </div>
                 </li>
                 <li>
                     <div class="active-name">主办方</div>
                     <div class="input-wrapper">
-                        <input type="text" class="zui-input-text" value="" id="host" placeholder="主办方名称"/>
+                        <span class="zui-input-text" id="hostName">主办方名称</span>
                     </div>
                     <div class="zui-align-right">
                         <div class="zui-btn">申请成为实名用户</div><i class="zui-icon icon-medal"></i>
@@ -83,37 +83,61 @@
                 <li>
                     <div class="active-name"><i class="zui-icon icon-address"></i>活动地点</div>
                     <div class="input-wrapper">
-                        <input type="text"  data-select-area="true" data-select-target="#NowProvince,#NowCity" data-select-title="请选择省份"  data-select-area='true'  class="zui-input-text" value="" id="city" readonly placeholder="选择地区" />
+                        <input type="text" data-required="true"  data-select-area="true" data-select-target="#NowProvince,#NowCity" data-select-title="请选择省份"     class="zui-input-text" value="" id="city" readonly placeholder="选择地区" />
                         <br/>
-                        <input type="text" class="zui-input-text" value="" id="other-local-msg" placeholder="输入详细地点"/>
+                        <input type="text" class="zui-input-text" value="" id="other-local-msg" placeholder="输入详细地点" data-required="true" />
                     </div>
                 </li>
 
                 <li>
                     <div class="active-name"><i class="zui-icon icon-date"></i>活动时间</div>
-                    <div class="input-wrapper zui-flex">
-                        <div class="zui-cell">
-                            <input type="text" readonly="readonly"  name="start-name" class="zui-input-text select-date-time" value="" placeholder="选择开始时间" />
+                    <div class="input-wrapper ">
+                        <div class="zui-flex">
+                            <div class="zui-cell">
+                                <input type="text" readonly="readonly"  data-required="true" name="start-name" class="zui-input-text select-date-time" value="" placeholder="选择开始时间" />
+                            </div>
+                            <div class="zui-cell end-time">
+                                <input type="text" readonly="readonly"  data-required="true" name="end-name" class="zui-cell zui-input-text select-date-time" value="" placeholder="选择结束时间" />
+                            </div>
                         </div>
-                        <div class="zui-cell end-time">
-                            <input type="text" readonly="readonly"  name="end-name" class="zui-cell zui-input-text select-date-time" value="" placeholder="选择结束时间" />
-                        </div>
+                        <div class="Validform_checktip  Validform_wrong"></div>
                     </div>
-                    <div class="error-data ">开始时间要大于结束时间</div>
 
                 </li>
 
                 <li>
-                    <div class="active-name"><i class="zui-icon icon-distance"></i>继续时间</div>
-                    <div class="input-wrapper">
-                        <input type="text" class="zui-input-text" value="" placeholder="请输入活动名称"/>
+                    <div class="active-name"><i class="zui-icon icon-distance"></i>持续时间</div>
+                    <div class="input-wrapper distance-input">
+                        <div class="zui-flex">
+                            <div class="zui-flex zui-cell">
+                                <div class="zui-cell">
+                                    <input type="text" class="zui-input-text distance-day" name="day" value="0" data-rule-type="number" />
+                                </div>
+                                <span class="zui-cell "><span class="text">天</span></span>
+                            </div>
+                            <div class="zui-flex zui-cell">
+                                <div class="zui-cell ">
+                                    <input type="text" class="zui-input-text distance-hour" name="hour" value="0" data-rule-type="number" data-min-length="0" data-max-length="23" data-error-msg="请输入0~23" />
+                                </div>
+                                <span class="zui-cell "><span class="text">时</span></span>
+
+                            </div>
+                            <div class="zui-flex zui-cell">
+                                <div class="zui-cell">
+                                    <input type="text" class="zui-input-text distance-minute" name="minute" value="0" data-rule-type="number" data-min-length="0" data-max-length="59" data-error-msg="请输入0~59" />
+                                </div>
+                                <span class="zui-cell "><span class="text">分</span></span>
+
+                            </div>
+                        </div>
+
                     </div>
                 </li>
 
                 <li>
                     <div class="active-name"><i class="zui-icon icon-number"></i>活动人数</div>
                     <div class="input-wrapper">
-                        <input type="text" class="zui-input-text" id="id_max_attend" value="" placeholder="请输入活动名称"/>
+                        <input type="text" class="zui-input-text" id="id_max_attend" value="" placeholder="请输入活动人数" data-rule-type="number" data-min-length="1" data-error-msg="最少人数为1"/>
                     </div>
                 </li>
 
@@ -121,7 +145,7 @@
                 <li>
                     <div class="active-name"><i class="zui-icon icon-price"></i>奖励金额</div>
                     <div class="input-wrapper">
-                        <input type="text" class="zui-input-text" id="id_reward" value="" placeholder="请输入活动名称"/>
+                        <input type="text" class="zui-input-text" id="id_reward" value="" placeholder="请输入活动奖励" data-rule-type="number" data-min-length="0" data-error-msg="输入有误" data-required="true"/>
                     </div>
                 </li>
 
@@ -129,7 +153,7 @@
                 <li>
                     <div class="active-name">活动简介</div>
                     <div class="input-wrapper">
-                        <textarea name="" id="desc" cols="30" rows="10" class="zui-input-textarea"  placeholder="请输入活动名称"></textarea>
+                        <textarea name="" id="desc" cols="30" rows="10" class="zui-input-textarea"  placeholder="请输入活动简介" ></textarea>
                     </div>
                 </li>
 
@@ -137,7 +161,7 @@
                 <li>
                     <div class="active-name">活动类型</div>
                     <div class="input-wrapper select-wrapper">
-                        <input type="hidden" name="action-type" id="action-type" />
+                        <input type="hidden" name="action-type" id="action-type" data-required="true" />
                         <span  class="select-activity-type"  > 请选择活动类型</span>
 
                         <div class="select-list-content">
