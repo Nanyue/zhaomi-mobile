@@ -1,11 +1,13 @@
 require('../../../common/pkgs/button/button');
 //require('../../../common/pkgs/progress/progress');
-var common = require('../../../lib/common/common.js');
 require('../../../lib/jquery-form/jquery.form');
 require('../../../lib/jquery-form/validform');
 require('../../../lib/jquery-form/validform.less');
-var FastClick = require('../../../lib/fastclick/fastclick');
 require('../css/create');
+
+var FastClick = require('../../../lib/fastclick/fastclick');
+var common = require('../../../lib/common/common.js');
+var ValidateForm = require('../../../lib/common/validateForm.js');
 
 var city = require('../../../lib/city/city');
 var utils = {
@@ -31,12 +33,12 @@ $(function() {
                 targetBtn: $city,
                 callback: function(value){
                     $city.val(value.join(" "));
-                    that.checkInputValue($city);
+                    ValidateForm.checkInput($city)
                 }
             })
         },
         initEvent: function() {
-            //this.initCheckForm();
+            this.initCheckForm();
             this.initFormEvent();
             this.initDatePicker();
             this.initFastClick();
@@ -90,11 +92,10 @@ $(function() {
                         var endValue = $appDate.eq(1).val();
                         var startValue = $appDate.eq(0).val();
                         if (endValue && startValue>= endValue){
-
-                            that.showVerifyResultMsg($appDate.eq(1), '开始时间要大于结束时间');
+                            ValidateForm.showValidateResult($appDate.eq(1), '开始时间要大于结束时间');
                             return false;
                         } else {
-                            that.hideVerifyResultMsg($appDate.eq(1));
+                            ValidateForm.hideValidateResult($appDate.eq(1));
                         }
                         $('.select-date-time').removeClass('Validform_error');
                     }
@@ -104,113 +105,18 @@ $(function() {
             }
 
         },
-        checkFormValue: function(){
-            var $input = $createActionStep.find('input');
-            var that =  this;
-            var isSuccess = true;
 
-            if ($input.length) {
-
-                $input.each(function(index, item){
-                    var $item = $(item);
-                    if (!isSuccess) {
-                        return
-                    }
-                    if(!that.checkInputValue($item)) {
-                        isSuccess = false;
-                    }
-
-                })
-            }
-            return isSuccess;
-        },
-        checkInputValue: function($this){
-
-            var that = this;
-            var value = $this.val();
-            var ruleType = $this.data('rule-type');
-            var maxLenth = $this.data('max-length');
-            var minLenth = $this.data('min-length');
-            var nullMsg = $this.data('null-msg');
-            var errorMsg = $this.data('error-msg');
-            var required = $this.data('required');
-            var length = value.length;
-
-
-            if (!length && required) {
-                return that.showVerifyResultMsg($this, nullMsg);
-            } else {
-                return that.hideVerifyResultMsg($this);
-            }
-
-            if (ruleType == 'number') {
-                length = +value;
-            }
-            //NaN
-            if (isNaN(length)) {
-                return that.showVerifyResultMsg($this, '请输入正确的数字');
-
-            } else {
-                return that.hideVerifyResultMsg($this);
-            }
-
-            //存在
-            if (maxLenth) {
-                if (length > maxLenth && errorMsg ) {
-                    return that.showVerifyResultMsg($this, errorMsg);
-                } else {
-                    return that.hideVerifyResultMsg($this);
-
-                }
-            }
-
-            if (minLenth>=0) {
-                if (length < minLenth) {
-                    return that.showVerifyResultMsg($this, errorMsg);
-                } else {
-                    return that.hideVerifyResultMsg($this);
-                }
-            }
-
-
-        },
-
-        showVerifyResultMsg: function($this, msg){
-            if (!msg) {
-                msg = '此项不能为空';
-            }
-            var $inputWrapper = $this.closest('.input-wrapper');
-            var $Validform_checktip =  $inputWrapper.find('.Validform_checktip');
-            if (!$Validform_checktip.length) {
-                $Validform_checktip = $('<span class="Validform_checktip "></span>')
-            }
-            $inputWrapper.append($Validform_checktip);
-            $this.addClass('Validform_error');
-            $Validform_checktip.show().addClass('Validform_wrong').html(msg);
-            return false;
-
-        },
-        hideVerifyResultMsg: function($this){
-            console.log('hideVerifyResultMsg');
-            $this.removeClass('Validform_error');
-            var $inputWrapper = $this.closest('.input-wrapper');
-            var $Validform_checktip =  $inputWrapper.find('.Validform_checktip');
-            if ($Validform_checktip.length) {
-                $Validform_checktip.hide();
-            }
-            return true;
-        },
         initFormEvent: function(){
             var that = this;
             $createActionStep.on('blur', 'input, textarea', function(e) {
                 var $this = $(e.currentTarget);
-                that.checkInputValue($this);
+                ValidateForm.checkInput($this);
             });
             $createActionStep.submit(function() {
 
                 $(this).ajaxSubmit({
                     beforeSubmit: function(formData, jqForm, options) {
-                        return that.checkFormValue($createActionStep);
+                        return ValidateForm.checkForm($createActionStep);
 
                     },
                     dataType: 'json',
@@ -252,81 +158,81 @@ $(function() {
                 $('#action-type').val(value);
                 $selectWrapper.find('.select-list-content').toggle();
             });
-            var $form=$("form#createActionStep").Validform({
-                tiptype:3,
-                label:".label",
-                showAllError: false,
-                datatype: {
-                    "zh1-6":/^[\u4E00-\u9FA5\uf900-\ufa2d]{1,6}$/,
-                    "image": function(gets,obj,curform,regxp){
-                        var reg1 = /\.jpg|png|git$/;
-                        if (reg1.test(gets)){
-                            return true;
-                        }
-                        return false;
-                    },
-                    'number': function(gets,obj,curform,regxp){
-                        var reg1 = /^\d+$/;
-                        if (reg1.test(gets)){
-                            return true;
-                        }
-                        return false;
-                    }
-                }
-            });
-
-            //$.Tipmsg.w["zh1-6"]="请输入1到6个中文字符！";
-            $form.tipmsg.w["zh1-6"]="请输入1到6个中文字符！";
-
-            $form.addRule([
-                {
-                    ele:"#name",
-                    datatype:"*2-20"
-                },
-                {
-                    ele:"#host",
-                    datatype:"*4-20"
-                },
-                {
-                    ele:"#city",
-                    datatype:"*1-50"
-                },
-
-                {
-                    ele:"#other-local-msg",
-                    datatype:"*1-50"
-                },
-                {
-                    ele:"#desc",
-                    datatype:"*1-50000"
-                },
-                {
-                    ele:".select-date-time",
-                    nullmsg: "请选择日期",
-                    datatype:"*1-50000"
-                },
-                {
-                    ele:"#id_max_attend",
-                    nullmsg: "输入活动人数",
-                    errormsg: "活动人数非法",
-                    datatype:"number"
-                },
-                {
-                    ele:"#action-type",
-                    nullmsg: "请选择类型",
-                    datatype:"number"
-                },
-                {
-                    ele:"#id_reward",
-                    nullmsg: "请输入奖励金额",
-                    datatype:"number"
-                },
-                {
-                    ele:"#poster",
-                    nullmsg: "请选择一张图片",
-                    datatype:"image"
-                }
-            ]);
+            //var $form=$("form#createActionStep").Validform({
+            //    tiptype:3,
+            //    label:".label",
+            //    showAllError: false,
+            //    datatype: {
+            //        "zh1-6":/^[\u4E00-\u9FA5\uf900-\ufa2d]{1,6}$/,
+            //        "image": function(gets,obj,curform,regxp){
+            //            var reg1 = /\.jpg|png|git$/;
+            //            if (reg1.test(gets)){
+            //                return true;
+            //            }
+            //            return false;
+            //        },
+            //        'number': function(gets,obj,curform,regxp){
+            //            var reg1 = /^\d+$/;
+            //            if (reg1.test(gets)){
+            //                return true;
+            //            }
+            //            return false;
+            //        }
+            //    }
+            //});
+            //
+            ////$.Tipmsg.w["zh1-6"]="请输入1到6个中文字符！";
+            //$form.tipmsg.w["zh1-6"]="请输入1到6个中文字符！";
+            //
+            //$form.addRule([
+            //    {
+            //        ele:"#name",
+            //        datatype:"*2-20"
+            //    },
+            //    {
+            //        ele:"#host",
+            //        datatype:"*4-20"
+            //    },
+            //    {
+            //        ele:"#city",
+            //        datatype:"*1-50"
+            //    },
+            //
+            //    {
+            //        ele:"#other-local-msg",
+            //        datatype:"*1-50"
+            //    },
+            //    {
+            //        ele:"#desc",
+            //        datatype:"*1-50000"
+            //    },
+            //    {
+            //        ele:".select-date-time",
+            //        nullmsg: "请选择日期",
+            //        datatype:"*1-50000"
+            //    },
+            //    {
+            //        ele:"#id_max_attend",
+            //        nullmsg: "输入活动人数",
+            //        errormsg: "活动人数非法",
+            //        datatype:"number"
+            //    },
+            //    {
+            //        ele:"#action-type",
+            //        nullmsg: "请选择类型",
+            //        datatype:"number"
+            //    },
+            //    {
+            //        ele:"#id_reward",
+            //        nullmsg: "请输入奖励金额",
+            //        datatype:"number"
+            //    },
+            //    {
+            //        ele:"#poster",
+            //        nullmsg: "请选择一张图片",
+            //        datatype:"image"
+            //    }
+            //]);
 
         }
     };
