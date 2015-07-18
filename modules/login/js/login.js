@@ -1,5 +1,5 @@
 require('../../../common/pkgs/button/button');
-var commoneUtil = require('../../../lib/common/util');
+var ValidateForm = require('../../../lib/common/validateform');
 require('../css/login');
 
 $(function() {
@@ -16,12 +16,12 @@ $(function() {
         },
         initDatePicker: function() {
             var $appDate = $("#appDate");
-            if ($appDate.length){
+            if ($appDate.length) {
                 var currYear = (new Date()).getFullYear();
-                var opt={};
-                opt.date = {preset : 'date'};
-                opt.datetime = {preset : 'datetime'};
-                opt.time = {preset : 'time'};
+                var opt = {};
+                opt.date = {preset: 'date'};
+                opt.datetime = {preset: 'datetime'};
+                opt.time = {preset: 'time'};
                 opt.default = {
                     theme: 'android-ics light', //皮肤样式
                     display: 'modal', //显示方式
@@ -39,7 +39,7 @@ $(function() {
 
         },
         initEvent: function() {
-            if ($pageRegister.length){
+            if ($pageRegister.length) {
                 this.initInputEvent($pageRegister);
                 this.initInputEventForm($pageRegister);
 
@@ -52,34 +52,35 @@ $(function() {
                 this.initInputEventForm($pageReset);
             }
         },
-        initInputEventForm: function($page){
-            this.$verifyResultMsg =  $('.verify-result-msg');
-            var that = this;
-            var vaildUtil = commoneUtil.Validation;
+        initInputEventForm: function($page) {
+            this.$verifyResultMsg = $('.verify-result-msg');
 
-            $page.on('blur', '.reset-password #pwd1', function(e){
+            var that = this;
+            var vaildUtil = ValidateForm;
+
+            $page.on('blur', '.reset-password #pwd1', function(e) {
                 var $this = $(e.currentTarget);
                 var value = $this.val();
                 //if (value.length > 18 || value.length < 6 ){
-                if (vaildUtil.isPwd(value)){
+                if (vaildUtil.isPwd(value)) {
                     that.hideVerifyResultMsg($this);
                 } else {
                     that.showVerifyResultMsg($this, '密码长度在6~18之间');
                 }
             });
 
-            $page.on('blur', '.reset-password #pwd2', function(e){
+            $page.on('blur', '.reset-password #pwd2', function(e) {
                 var $this = $(e.currentTarget);
                 var value = $this.val();
                 var pwd1Value = $("#pwd1").val();
-                if (vaildUtil.isSamePwd(pwd1Value, value )){
+                if (vaildUtil.isSamePwd(pwd1Value, value)) {
                     that.hideVerifyResultMsg($this);
                 } else {
                     that.showVerifyResultMsg($this, '两次密码不一致');
                 }
             });
 
-            $page.on('blur', 'input.phone', function(e){
+            $page.on('blur', 'input.phone', function(e) {
                 var $this = $(e.currentTarget);
                 var value = $this.val();
 
@@ -90,10 +91,10 @@ $(function() {
                 }
             });
 
-            $page.on('blur', 'input#verifyCode', function(e){
+            $page.on('blur', 'input#verifyCode', function(e) {
                 var $this = $(e.currentTarget);
                 var value = $this.val();
-                if (value.length >= 3 && value.length<=6) {
+                if (value.length >= 3 && value.length <= 6) {
                     that.hideVerifyResultMsg($this);
                 } else {
                     that.showVerifyResultMsg($this, '请输入正确的验证码');
@@ -101,14 +102,14 @@ $(function() {
             });
         },
 
-        showVerifyResultMsg: function($this, text){
+        showVerifyResultMsg: function($this, text) {
             var $inputWrapper = $this.closest('.input-wrapper');
             var $verifyResultMsg = this.$verifyResultMsg;
             $verifyResultMsg.show();
             $verifyResultMsg.find('.error-text').html(text);
             $inputWrapper.removeClass('success').addClass('error');
         },
-        hideVerifyResultMsg: function($this){
+        hideVerifyResultMsg: function($this) {
             var $inputWrapper = $this.closest('.input-wrapper');
             var $verifyResultMsg = this.$verifyResultMsg;
             $verifyResultMsg.hide();
@@ -131,6 +132,5 @@ $(function() {
         }
     };
     main.init();
-
 
 });
