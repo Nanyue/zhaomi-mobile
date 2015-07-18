@@ -24,17 +24,19 @@ $(function() {
 
     var main = {
         init: function(){
+            var that = this;
             this.initEvent();
             var $city = $('#city');
             city.init({
                 targetBtn: $city,
                 callback: function(value){
-                    $city.val(value.join(" "))
+                    $city.val(value.join(" "));
+                    that.checkInputValue($city);
                 }
             })
         },
         initEvent: function() {
-            this.initCheckForm();
+            //this.initCheckForm();
             this.initFormEvent();
             this.initDatePicker();
             this.initFastClick();
@@ -49,18 +51,31 @@ $(function() {
         },
         initDatePicker: function() {
             var $appDate = $(".select-date-time");
+            var that = this;
 
-            initDatePicker($appDate);
-            function initDatePicker(obj){
+            $appDate.each(function(index, item) {
+                var $item = $(item);
+                var type = $item.data('time-type');
+                initDatePicker($item, type);
+            });
 
+            function initDatePicker(obj, type){
+                if (!type) {
+                    type = 'datetime';
+                }
+                var obj = $(obj);
                 if(!obj.length)return;
                 var currYear = (new Date()).getFullYear();
                 var opt={};
                 opt.date = {
                     preset : 'date'
                 };
-                opt.datetime = {preset : 'datetime'};
-                opt.time = {preset : 'time'};
+                opt.datetime = {
+                    preset : type
+                };
+                opt.time = {
+                    preset : 'time'
+                };
                 opt.default = {
                     theme: 'android-ics light', //皮肤样式
                     display: 'bottom', //显示方式
@@ -74,15 +89,14 @@ $(function() {
                     onSelect: function(e){
                         var endValue = $appDate.eq(1).val();
                         var startValue = $appDate.eq(0).val();
-                        if (endValue && startValue>=endValue){
-                            $appDate.eq(1).addClass('Validform_error');
-                            $appDate.eq(1).closest('li').find('.error-data').show();
+                        if (endValue && startValue>= endValue){
+
+                            that.showVerifyResultMsg($appDate.eq(1), '开始时间要大于结束时间');
                             return false;
                         } else {
-
-                            $appDate.eq(1).removeClass('Validform_error');
-                            $appDate.eq(1).closest('li').find('.error-data').hide();
+                            that.hideVerifyResultMsg($appDate.eq(1));
                         }
+                        $('.select-date-time').removeClass('Validform_error');
                     }
                 };
                 var optDateTime = $.extend(opt['datetime'], opt['default']);
@@ -90,15 +104,114 @@ $(function() {
             }
 
         },
-        initFormEvent: function(){
+        checkFormValue: function(){
+            var $input = $createActionStep.find('input');
+            var that =  this;
+            var isSuccess = true;
 
+            if ($input.length) {
+
+                $input.each(function(index, item){
+                    var $item = $(item);
+                    if (!isSuccess) {
+                        return
+                    }
+                    if(!that.checkInputValue($item)) {
+                        isSuccess = false;
+                    }
+
+                })
+            }
+            return isSuccess;
+        },
+        checkInputValue: function($this){
+
+            var that = this;
+            var value = $this.val();
+            var ruleType = $this.data('rule-type');
+            var maxLenth = $this.data('max-length');
+            var minLenth = $this.data('min-length');
+            var nullMsg = $this.data('null-msg');
+            var errorMsg = $this.data('error-msg');
+            var required = $this.data('required');
+            var length = value.length;
+
+
+            if (!length && required) {
+                return that.showVerifyResultMsg($this, nullMsg);
+            } else {
+                return that.hideVerifyResultMsg($this);
+            }
+
+            if (ruleType == 'number') {
+                length = +value;
+            }
+            //NaN
+            if (isNaN(length)) {
+                return that.showVerifyResultMsg($this, '请输入正确的数字');
+
+            } else {
+                return that.hideVerifyResultMsg($this);
+            }
+
+            //存在
+            if (maxLenth) {
+                if (length > maxLenth && errorMsg ) {
+                    return that.showVerifyResultMsg($this, errorMsg);
+                } else {
+                    return that.hideVerifyResultMsg($this);
+
+                }
+            }
+
+            if (minLenth>=0) {
+                if (length < minLenth) {
+                    return that.showVerifyResultMsg($this, errorMsg);
+                } else {
+                    return that.hideVerifyResultMsg($this);
+                }
+            }
+
+
+        },
+
+        showVerifyResultMsg: function($this, msg){
+            if (!msg) {
+                msg = '此项不能为空';
+            }
+            var $inputWrapper = $this.closest('.input-wrapper');
+            var $Validform_checktip =  $inputWrapper.find('.Validform_checktip');
+            if (!$Validform_checktip.length) {
+                $Validform_checktip = $('<span class="Validform_checktip "></span>')
+            }
+            $inputWrapper.append($Validform_checktip);
+            $this.addClass('Validform_error');
+            $Validform_checktip.show().addClass('Validform_wrong').html(msg);
+            return false;
+
+        },
+        hideVerifyResultMsg: function($this){
+            console.log('hideVerifyResultMsg');
+            $this.removeClass('Validform_error');
+            var $inputWrapper = $this.closest('.input-wrapper');
+            var $Validform_checktip =  $inputWrapper.find('.Validform_checktip');
+            if ($Validform_checktip.length) {
+                $Validform_checktip.hide();
+            }
+            return true;
+        },
+        initFormEvent: function(){
+            var that = this;
+            $createActionStep.on('blur', 'input', function(e) {
+                var $this = $(e.currentTarget);
+                that.checkInputValue($this);
+            });
             $createActionStep.submit(function() {
 
                 $(this).ajaxSubmit({
                     beforeSubmit: function(formData, jqForm, options) {
-                        if($('.Validform_error').length){
-                            return false;
-                        }
+                        return that.checkFormValue($createActionStep);
+
                     },
                     dataType: 'json',
                     success: function(res) {
