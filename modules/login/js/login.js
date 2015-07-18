@@ -1,14 +1,18 @@
 require('../../../common/pkgs/button/button');
+var commoneUtil = require('../../../lib/common/util');
 require('../css/login');
 
 $(function() {
     var $pageRegister = $('#pageRegister');
     var $pageLogin = $('#pageLogin');
+    var $pageReset = $('#pageReset');
+
     $pageRegister.show();
     var main = {
         init: function() {
             this.initEvent();
             this.initDatePicker()
+
         },
         initDatePicker: function() {
             var $appDate = $("#appDate");
@@ -37,15 +41,85 @@ $(function() {
         initEvent: function() {
             if ($pageRegister.length){
                 this.initInputEvent($pageRegister);
+                this.initInputEventForm($pageRegister);
 
             } else if ($pageLogin.length) {
                 this.initInputEvent($pageLogin);
 
+            } else if ($pageReset.length) {
+                this.initInputEvent($pageReset);
+
+                this.initInputEventForm($pageReset);
             }
         },
+        initInputEventForm: function($page){
+            this.$verifyResultMsg =  $('.verify-result-msg');
+            var that = this;
+            var vaildUtil = commoneUtil.Validation;
+
+            $page.on('blur', '.reset-password #pwd1', function(e){
+                var $this = $(e.currentTarget);
+                var value = $this.val();
+                //if (value.length > 18 || value.length < 6 ){
+                if (vaildUtil.isPwd(value)){
+                    that.hideVerifyResultMsg($this);
+                } else {
+                    that.showVerifyResultMsg($this, '密码长度在6~18之间');
+                }
+            });
+
+            $page.on('blur', '.reset-password #pwd2', function(e){
+                var $this = $(e.currentTarget);
+                var value = $this.val();
+                var pwd1Value = $("#pwd1").val();
+                if (vaildUtil.isSamePwd(pwd1Value, value )){
+                    that.hideVerifyResultMsg($this);
+                } else {
+                    that.showVerifyResultMsg($this, '两次密码不一致');
+                }
+            });
+
+            $page.on('blur', 'input.phone', function(e){
+                var $this = $(e.currentTarget);
+                var value = $this.val();
+
+                if (vaildUtil.isMobile(value)) {
+                    that.hideVerifyResultMsg($this);
+                } else {
+                    that.showVerifyResultMsg($this, '请输入正确的手机号');
+                }
+            });
+
+            $page.on('blur', 'input#verifyCode', function(e){
+                var $this = $(e.currentTarget);
+                var value = $this.val();
+                if (value.length >= 3 && value.length<=6) {
+                    that.hideVerifyResultMsg($this);
+                } else {
+                    that.showVerifyResultMsg($this, '请输入正确的验证码');
+                }
+            });
+        },
+
+        showVerifyResultMsg: function($this, text){
+            var $inputWrapper = $this.closest('.input-wrapper');
+            var $verifyResultMsg = this.$verifyResultMsg;
+            $verifyResultMsg.show();
+            $verifyResultMsg.find('.error-text').html(text);
+            $inputWrapper.removeClass('success').addClass('error');
+        },
+        hideVerifyResultMsg: function($this){
+            var $inputWrapper = $this.closest('.input-wrapper');
+            var $verifyResultMsg = this.$verifyResultMsg;
+            $verifyResultMsg.hide();
+            $inputWrapper.addClass('success').removeClass('error');
+
+        },
         initInputEvent: function(obj) {
+
             obj.on('focus', '.input-wrapper input', function(e) {
                 var $target = $(e.currentTarget);
+
                 var $inputWrapper = $target.closest('.input-wrapper');
                 $inputWrapper.addClass('focus');
             }).on('blur', '.input-wrapper input', function(e) {
@@ -53,6 +127,7 @@ $(function() {
                 var $inputWrapper = $target.closest('.input-wrapper');
                 $inputWrapper.removeClass('focus');
             });
+
         }
     };
     main.init();

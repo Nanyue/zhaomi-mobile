@@ -40,17 +40,25 @@ $(function() {
             this.initFastClick();
         },
         initFastClick: function(){
-            FastClick.attach(document.body);
+            var $selectWrapper = $('.select-wrapper')
+
+            if ($selectWrapper.length) {
+                FastClick.attach($selectWrapper[0]);
+            }
+
         },
         initDatePicker: function() {
             var $appDate = $(".select-date-time");
 
             initDatePicker($appDate);
             function initDatePicker(obj){
+
                 if(!obj.length)return;
                 var currYear = (new Date()).getFullYear();
                 var opt={};
-                opt.date = {preset : 'date'};
+                opt.date = {
+                    preset : 'date'
+                };
                 opt.datetime = {preset : 'datetime'};
                 opt.time = {preset : 'time'};
                 opt.default = {
@@ -71,6 +79,7 @@ $(function() {
                             $appDate.eq(1).closest('li').find('.error-data').show();
                             return false;
                         } else {
+
                             $appDate.eq(1).removeClass('Validform_error');
                             $appDate.eq(1).closest('li').find('.error-data').hide();
                         }
@@ -90,7 +99,6 @@ $(function() {
                         if($('.Validform_error').length){
                             return false;
                         }
-
                     },
                     dataType: 'json',
                     success: function(res) {
@@ -125,14 +133,18 @@ $(function() {
             });
 
             $selectWrapper.on('click', '.select-list-content span', function(e){
-                $selectWrapper.find('.select-activity-type').val($(e.currentTarget).data('val'));
+                var $this = $(e.currentTarget);
+                var text = $this.html();
+                var value = $this.data('val');
+                $selectWrapper.find('.select-activity-type').html(text);
+                $('#action-type').val(value);
                 $selectWrapper.find('.select-list-content').toggle();
             });
             var $form=$("form#createActionStep").Validform({
                 tiptype:3,
                 label:".label",
-                showAllError:true,
-                datatype:{
+                showAllError: false,
+                datatype: {
                     "zh1-6":/^[\u4E00-\u9FA5\uf900-\ufa2d]{1,6}$/,
                     "image": function(gets,obj,curform,regxp){
                         var reg1 = /\.jpg|png|git$/;
