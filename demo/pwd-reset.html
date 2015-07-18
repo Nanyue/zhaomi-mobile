@@ -14,21 +14,28 @@
     </div>
     <div class="login-title zui-align-center">重置密码</div>
     <div class="access-box">
-        <form action="//zhaomi.biz/login" method="post">
-
-            <div class="user-header">
-                <div class="img">
-                    <img src="//zhaomi.biz/m/assets/img/user.png" alt="" class=""/>
-                </div>
-                <span class="user-name">力皓</span>
+        <form action="//zhaomi.biz/login" method="post" class="reset-password">
+             <div class="input-verifycode zui-flex">
+                 <div class="input-wrapper zui-cell zui-flex">
+                             <div class="zui-flex-fixed icon"><i class="zui-icon icon-phone"></i></div>
+                             <div class="zui-cell"><input type="text"  class="phone" placeholder="请输入手机号"/></div>
+                 </div>
+                 <div class="zui-flex-fixed">
+                     <button class="zui-btn btn-send-verifycode">发送验证码</button>
+                 </div>
+             </div>
+            <div class="input-wrapper zui-flex">
+                <div class="zui-flex-fixed icon"><i class="zui-icon icon-verifycode"></i></div>
+                <div class="zui-cell"><input type="text" id="verifyCode" name="code" class="zui-cell" placeholder="请输入验证码"/></div>
             </div>
+
             <div class="input-wrapper zui-flex">
                 <div class="zui-flex-fixed icon"><i class="zui-icon icon-pwd"></i></div>
-                <div class="zui-cell"><input type="text" maxlength="25"  id="username" name="username" class="zui-cell" placeholder="请输入您的新密码"/></div>
+                <div class="zui-cell"><input type="password" maxlength="25"  id="pwd1" name="password" class="zui-cell" placeholder="请输入您的新密码"/></div>
             </div>
             <div class="input-wrapper zui-flex">
-                <div class="zui-flex-fixed icon"><i class="zui-icon icon-lock"></i></div>
-                <div class="zui-cell"><input type="text" id="pwd" name="pwd" class="zui-cell" placeholder="请再次输入您的新密码"/></div>
+                <div class="zui-flex-fixed icon"><i class="zui-icon icon-lock2"></i></div>
+                <div class="zui-cell"><input type="password" id="pwd2" name="password2" class="zui-cell" placeholder="再次输入您的新密码"/></div>
             </div>
 
 
@@ -40,7 +47,7 @@
             <div class="verify-result-msg ">
                 <div class="input-wrapper zui-flex error">
                     <div class="zui-flex-fixed icon"><i class="zui-icon icon-lock"></i></div>
-                    <div class="zui-cell"><span class="verify-pwd">*****</span><span class="error-text">密码不匹配</span></div>
+                    <div class="zui-cell"><span class="verify-pwd">*****</span><span class="error-text"></span></div>
                 </div>
 
             </div>
