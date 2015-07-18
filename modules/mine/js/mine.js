@@ -1,5 +1,6 @@
 require('../../../common/pkgs/button/button');
 require('../css/mine');
+var common = require('../../../lib/common/common.js');
 
 $(function() {
 

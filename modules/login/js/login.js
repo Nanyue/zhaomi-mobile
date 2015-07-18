@@ -1,6 +1,7 @@
 require('../../../common/pkgs/button/button');
 var ValidateForm = require('../../../lib/common/validateform');
 require('../css/login');
+var common = require('../../../lib/common/common.js');
 
 $(function() {
     var $pageRegister = $('#pageRegister');

@@ -17,7 +17,7 @@ var utils = {
 };
 
 $(function() {
-    common.initNav();
+    //common.initNav();
     var $pageCreateAction = $('#pageCreateAction');
 
     var $createActionStep = $pageCreateAction.find('#createActionStep.step-01');
