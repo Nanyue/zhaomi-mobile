@@ -25,7 +25,7 @@ $(function() {
 
                 aLinks.each(function(index, linkItem) {
                     var $linkItem = $(linkItem);
-                    urlParams[typeName] =  $linkItem.data('type');;
+                    urlParams[typeName] =  $linkItem.data('type');
                     $linkItem.attr('href', window.location.href.split('?')[0]+'?'+$.param(urlParams))
                 })
             });
