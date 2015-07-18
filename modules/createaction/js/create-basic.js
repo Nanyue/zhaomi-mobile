@@ -202,7 +202,7 @@ $(function() {
         },
         initFormEvent: function(){
             var that = this;
-            $createActionStep.on('blur', 'input', function(e) {
+            $createActionStep.on('blur', 'input, textarea', function(e) {
                 var $this = $(e.currentTarget);
                 that.checkInputValue($this);
             });
@@ -242,7 +242,6 @@ $(function() {
             var $selectWrapper =  $('.select-wrapper');
             $selectWrapper.on('click', '.select-activity-type', function(){
                 $selectWrapper.find('.select-list-content').toggle();
-
             });
 
             $selectWrapper.on('click', '.select-list-content span', function(e){
