@@ -13,7 +13,7 @@ $(function() {
         init: function (){
 
         }
-    }
+    };
 
     main.init();
 });

@@ -7,26 +7,25 @@ var libUtil = require('../../../lib/common/util');
 $(function() {
 
     var main = {
-        init: function(){
+        init: function() {
             var $banner = $('.banner');
             city.init();
             //this.initCateList()
             this.initBanner($banner);
             this.initCateList();
 
-
         },
-        initLinkUrl: function($obj){
+        initLinkUrl: function($obj) {
             var urlParams = libUtil.parseQuery()
-            $obj.find('.tab-content-item').each(function(index, item){
+            $obj.find('.tab-content-item').each(function(index, item) {
                 var typeName = $(item).find('ul').data('type-name');
                 var aLinks = $(item).find('a');
                 var type = urlParams[type];
 
                 aLinks.each(function(index, linkItem) {
                     var $linkItem = $(linkItem);
-                    urlParams[typeName] =  $linkItem.data('type');
-                    $linkItem.attr('href', window.location.href.split('?')[0]+'?'+$.param(urlParams))
+                    urlParams[typeName] = $linkItem.data('type');
+                    $linkItem.attr('href', window.location.href.split('?')[0] + '?' + $.param(urlParams))
                 })
             });
         },
@@ -34,7 +33,7 @@ $(function() {
             var $cateList = $('#cateList');
             var isInitLink = false;
             var that = this;
-            if ($cateList.length){
+            if ($cateList.length) {
                 $cateList.on('touchend', '.tab .tab-item', function(e) {
                     if (!isInitLink) {
                         that.initLinkUrl($cateList);
@@ -48,9 +47,9 @@ $(function() {
                     $cateList.addClass('open');
                     $cateList.find('.active').removeClass('active');
 
-                    if (hasActive){
+                    if (hasActive) {
                         hideCateList();
-                    } else{
+                    } else {
                         $target.addClass('active');
                         $tabContentItems.removeClass('active');
                         $tabContentItems.eq(index).addClass('active');
@@ -61,7 +60,7 @@ $(function() {
                 }).on('touchend', '.tab-content', function() {
                     hideCateList();
                 });
-                $(document).on('touchend', function(){
+                $(document).on('touchend', function() {
                     hideCateList();
                 });
                 function hideCateList() {

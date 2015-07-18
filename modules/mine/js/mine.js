@@ -6,13 +6,13 @@ $(function() {
     ({
         init: function() {
             this.$pageMine = $('#pageMine');
-            var $userCenterPage = this.$userCenterPage =  this.$pageMine.find('#userCenterPage');
+            var $userCenterPage = this.$userCenterPage = this.$pageMine.find('#userCenterPage');
             if ($userCenterPage.length) {
                 this.isUserCenterPage = true;
             }
             this.initEvent()
         },
-        initEvent: function(){
+        initEvent: function() {
             if (this.isUserCenterPage) {
                 this.$userCenterPage.on('click', '.btn-edit', function(e) {
                     var $target = $(e.currentTarget);
@@ -29,7 +29,7 @@ $(function() {
                     var $target = $(e.currentTarget);
                     var value = $target.val();
                     var maxNumber = 10;
-                    if (value.length > maxNumber ) {
+                    if (value.length > maxNumber) {
                         $target.val(value.slice(0, maxNumber))
                     }
                     var $editItem = $target.closest('.edit-item');

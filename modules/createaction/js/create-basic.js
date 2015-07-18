@@ -11,27 +11,25 @@ var ValidateForm = require('../../../lib/common/validateForm.js');
 
 var city = require('../../../lib/city/city');
 var utils = {
-    warn: function(msg){
+    warn: function(msg) {
         alert(msg);
     }
-}
-
+};
 
 $(function() {
     common.initNav();
-
     var $pageCreateAction = $('#pageCreateAction');
 
     var $createActionStep = $pageCreateAction.find('#createActionStep.step-01');
 
     var main = {
-        init: function(){
+        init: function() {
             var that = this;
             this.initEvent();
             var $city = $('#city');
             city.init({
                 targetBtn: $city,
-                callback: function(value){
+                callback: function(value) {
                     $city.val(value.join(" "));
                     ValidateForm.checkInput($city)
                 }
@@ -43,7 +41,7 @@ $(function() {
             this.initDatePicker();
             this.initFastClick();
         },
-        initFastClick: function(){
+        initFastClick: function() {
             var $selectWrapper = $('.select-wrapper')
 
             if ($selectWrapper.length) {
@@ -61,22 +59,24 @@ $(function() {
                 initDatePicker($item, type);
             });
 
-            function initDatePicker(obj, type){
+            function initDatePicker(obj, type) {
                 if (!type) {
                     type = 'datetime';
                 }
                 var obj = $(obj);
-                if(!obj.length)return;
+                if (!obj.length) {
+                    return;
+                }
                 var currYear = (new Date()).getFullYear();
-                var opt={};
+                var opt = {};
                 opt.date = {
-                    preset : 'date'
+                    preset: 'date'
                 };
                 opt.datetime = {
-                    preset : type
+                    preset: type
                 };
                 opt.time = {
-                    preset : 'time'
+                    preset: 'time'
                 };
                 opt.default = {
                     theme: 'android-ics light', //皮肤样式
@@ -88,10 +88,10 @@ $(function() {
                     nowText: "今天",
                     startYear: currYear - 10, //开始年份
                     endYear: currYear + 10,//结束年份,
-                    onSelect: function(e){
+                    onSelect: function(e) {
                         var endValue = $appDate.eq(1).val();
                         var startValue = $appDate.eq(0).val();
-                        if (endValue && startValue>= endValue){
+                        if (endValue && startValue >= endValue) {
                             ValidateForm.showValidateResult($appDate.eq(1), '开始时间要大于结束时间');
                             return false;
                         } else {
@@ -106,7 +106,7 @@ $(function() {
 
         },
 
-        initFormEvent: function(){
+        initFormEvent: function() {
             var that = this;
             $createActionStep.on('blur', 'input, textarea', function(e) {
                 var $this = $(e.currentTarget);
@@ -145,12 +145,12 @@ $(function() {
             })
         },
         initCheckForm: function() {
-            var $selectWrapper =  $('.select-wrapper');
-            $selectWrapper.on('click', '.select-activity-type', function(){
+            var $selectWrapper = $('.select-wrapper');
+            $selectWrapper.on('click', '.select-activity-type', function() {
                 $selectWrapper.find('.select-list-content').toggle();
             });
 
-            $selectWrapper.on('click', '.select-list-content span', function(e){
+            $selectWrapper.on('click', '.select-list-content span', function(e) {
                 var $this = $(e.currentTarget);
                 var text = $this.html();
                 var value = $this.data('val');
@@ -238,6 +238,5 @@ $(function() {
     };
 
     main.init();
-
 
 });

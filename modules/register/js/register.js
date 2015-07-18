@@ -13,12 +13,12 @@ $(function() {
         initDatePicker: function() {
             var $appDate = $("#appDate");
 
-            if ($appDate.length){
+            if ($appDate.length) {
                 var currYear = (new Date()).getFullYear();
-                var opt={};
-                opt.date = {preset : 'date'};
-                opt.datetime = {preset : 'datetime'};
-                opt.time = {preset : 'time'};
+                var opt = {};
+                opt.date = {preset: 'date'};
+                opt.datetime = {preset: 'datetime'};
+                opt.time = {preset: 'time'};
                 opt.default = {
                     theme: 'android-ics light', //皮肤样式
                     display: 'modal', //显示方式
@@ -36,7 +36,7 @@ $(function() {
 
         },
         initEvent: function() {
-            if ($pageRegister.length){
+            if ($pageRegister.length) {
                 this.initInputEvent($pageRegister);
 
             } else if ($pageLogin.length) {
@@ -57,6 +57,5 @@ $(function() {
         }
     };
     main.init();
-
 
 });

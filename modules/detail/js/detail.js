@@ -25,23 +25,23 @@ $(function() {
                     // },
 
                     //cssControl:内置的提示信息样式控制函数，该函数需传入两个参数：显示提示信息的对象 和 当前提示的状态（既形参o中的type）;
-                    if(!o.obj.is("form")) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
-                        var objtip= o.obj.closest(".question").find(".Validform_checktip");
-                        console.log( o.type);
+                    if (!o.obj.is("form")) {//验证表单元素时o.obj为该表单元素，全部验证通过提交表单时o.obj为该表单对象;
+                        var objtip = o.obj.closest(".question").find(".Validform_checktip");
+                        console.log(o.type);
                         cssControl(objtip, o.type);
-                        if (o.tip != 2){
+                        if (o.tip != 2) {
                             objtip.text(msg);
                         }
                     }
 
                 },
                 showAllError: true,
-                datatype:{
-                    "zh1-6":/^[\u4E00-\u9FA5\uf900-\ufa2d]{1,6}$/
+                datatype: {
+                    "zh1-6": /^[\u4E00-\u9FA5\uf900-\ufa2d]{1,6}$/
                 }
 
             });
-            $formCondition.ajaxForm( {
+            $formCondition.ajaxForm({
                 beforeSubmit: this.validateForm
             });
             //function validateForm() {
@@ -49,9 +49,9 @@ $(function() {
             //}
         },
         validateForm: function(arr, $form, options) {
-             var hasEmpty = false;
-             $('.question-result').find('.zui-radio')
-             return hasEmpty;
+            var hasEmpty = false;
+            $('.question-result').find('.zui-radio')
+            return hasEmpty;
         }
 
     }
@@ -61,43 +61,45 @@ $(function() {
 
 function abcd() {
     var voidValue = {//策略者
-        Config : {},//默认配置规则
-        Message : {//未通过验证时输出的信息
-            isEmpty : 'EMPTY',
-            isPhone : 'NOTPHONE',
-            isBoolean : 'NOTBOOLEAN',
-            isLength : 'BIGGER THAN MAX',
-            isUndefined : 'UNDEFINED',
-            isNumber : 'NOTNUMBER'
+        Config: {},//默认配置规则
+        Message: {//未通过验证时输出的信息
+            isEmpty: 'EMPTY',
+            isPhone: 'NOTPHONE',
+            isBoolean: 'NOTBOOLEAN',
+            isLength: 'BIGGER THAN MAX',
+            isUndefined: 'UNDEFINED',
+            isNumber: 'NOTNUMBER'
         },
-        Rules : {//自定义规则，所有的规则在里面逐步添加
-            isEmpty : function(v) {
+        Rules: {//自定义规则，所有的规则在里面逐步添加
+            isEmpty: function(v) {
                 return v != '';
             },
-            isUndefined :  function(v) {
+            isUndefined: function(v) {
                 return typeof v === 'undefined';
             },
-            isPhone : function(v) {
+            isPhone: function(v) {
                 return /^1[3|4|5|8]\d{9}$/.test(v);
             },
-            isBoolean : function(v) {
+            isBoolean: function(v) {
                 return Object.prototype.toString.call(v) === '[object Boolean]';
             },
-            isNumber : function(v) {
+            isNumber: function(v) {
                 return Object.prototype.toString.call(v) === '[object Number]';
             },
-            isName :  function(v) {
+            isName: function(v) {
                 return /^[\u4E00-\u9FFF]{1,6}$/.test(v);
             },
-            isAdress : function(v) {
-                return this.isEmpty(v) && v.length<200;
+            isAdress: function(v) {
+                return this.isEmpty(v) && v.length < 200;
             }
         },
-        vaild : function(data, callback) {//入口函数，传入数据源
+        vaild: function(data, callback) {//入口函数，传入数据源
             var ruleFun;
             var message;
             for (var i in data) {//循环传入的对象
-                if (!this.Config[i]) continue;
+                if (!this.Config[i]) {
+                    continue;
+                }
                 if (this.Config[i].ruleFun) {
                     //判断是否有用户自定义输出的字符串，这里其实是经常用到的，比如某个字段没有通过验证需要怎么样提示，
                     // 以及提示的文字，在验证表单是尤其重要！
@@ -108,13 +110,13 @@ function abcd() {
                     message = this.Message[this.Config[i]];
                 }
                 var t = Object.prototype.toString.call(ruleFun);//这里我们判断是需要执行验证函数还是比对数值大小
-                if(t === '[object Function]') {
-                    if(!ruleFun(data[i])) {
+                if (t === '[object Function]') {
+                    if (!ruleFun(data[i])) {
                         console.warn(message);
                         return false;
                     }
-                }else if(t === '[object Number]') {
-                    if(!/\d+/.test(data[i]) || parseInt(data[i]) >= ruleFun) {
+                } else if (t === '[object Number]') {
+                    if (!/\d+/.test(data[i]) || parseInt(data[i]) >= ruleFun) {
                         console.warn(message);
                         return false;
                     }
