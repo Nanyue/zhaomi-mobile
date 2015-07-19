@@ -1,6 +1,8 @@
 require('../../../common/pkgs/button/button');
 require('../css/activity');
 var common = require('../../../lib/common/common.js');
+var applyList = require('./apply-list');
+
 $(function() {
 
     var main = {
@@ -13,4 +15,5 @@ $(function() {
 
     };
     main.init();
+    applyList.init();
 });
