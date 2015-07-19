@@ -7,7 +7,7 @@ require('../css/create');
 
 var FastClick = require('../../../lib/fastclick/fastclick');
 var common = require('../../../lib/common/common.js');
-var ValidateForm = require('../../../lib/common/validateForm.js');
+var ValidateForm = require('../../../lib/common/validateform.js');
 
 var city = require('../../../lib/city/city');
 var utils = {
