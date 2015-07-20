@@ -79,6 +79,7 @@ $(function() {
         },
 
         initBanner: function($banner) {
+            $banner.height($(window).width() * 5 / 8);
             $banner.unslider({
                 dots: true
             });
