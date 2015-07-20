@@ -19,7 +19,7 @@ $(function() {
                 var $this = $(e.currentTarget);
                 ValidateForm.checkInput($this);
             });
-            $('#apply-form').submit(function() {
+            $formCondition.submit(function() {
                 var data = collectData();
                 $(this).ajaxSubmit({
                     beforeSubmit: function() {
@@ -28,7 +28,6 @@ $(function() {
                         //    return false;
                         //}
                         return ValidateForm.checkForm($formCondition);
-
                     },
                     dataType: 'json',
                     data: {
