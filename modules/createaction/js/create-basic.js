@@ -117,7 +117,6 @@ $(function() {
                 $(this).ajaxSubmit({
                     beforeSubmit: function(formData, jqForm, options) {
                         return ValidateForm.checkForm($createActionStep);
-
                     },
                     dataType: 'json',
                     success: function(res) {
@@ -130,8 +129,8 @@ $(function() {
                             }
                         } else {
                             for (var key in data) {
-                                $('#' + key).removeClass('focus').addClass('err');
-                                utils.warn(data[key]);
+                                // $('#' + key).removeClass('focus').addClass('err');
+                                common.warn(data[key]);
                                 break;
                             }
                         }
@@ -143,6 +142,57 @@ $(function() {
 
                 return false;
             })
+
+            $('#publish').click(function() {
+                $form.ajaxForm({
+                    dataType: 'json',
+                    success: function(res) {
+                        var success = res && res.success;
+                        var data = res && res.data;
+                        
+                        if (success) {
+                            if (data.url) {
+                                location.href = data.url;  
+                            } 
+                        } else {
+                            for (var key in data) {
+                                // $('#' + key).removeClass('focus').addClass('err');
+                                common.warn(data[key]);
+                                break;
+                            }
+                        }
+                    }
+                })
+
+                $form.submit();
+            });
+
+            $('#save').click(function() {
+                var actionUrl = $(this).data('action');
+
+                $form.ajaxForm({
+                    url: actionUrl,
+                    dataType: 'json',
+                    success: function(res) {
+                        var success = res && res.success;
+                        var data = res && res.data;
+                        
+                        if (success) {
+                            if (data.url) {
+                                location.href = data.url;  
+                            } 
+                        } else {
+                            for (var key in data) {
+                                // $('#' + key).removeClass('focus').addClass('err');
+                                common.warn(data[key]);
+                                break;
+                            }
+                        }
+                    }
+                })
+
+                $form.submit();
+            });
         },
         initCheckForm: function() {
             var $selectWrapper = $('.select-wrapper');

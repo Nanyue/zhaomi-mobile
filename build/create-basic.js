@@ -163,7 +163,6 @@
 	                $(this).ajaxSubmit({
 	                    beforeSubmit: function(formData, jqForm, options) {
 	                        return ValidateForm.checkForm($createActionStep);
-
 	                    },
 	                    dataType: 'json',
 	                    success: function(res) {
@@ -176,8 +175,8 @@
 	                            }
 	                        } else {
 	                            for (var key in data) {
-	                                $('#' + key).removeClass('focus').addClass('err');
-	                                utils.warn(data[key]);
+	                                // $('#' + key).removeClass('focus').addClass('err');
+	                                common.warn(data[key]);
 	                                break;
 	                            }
 	                        }
@@ -189,6 +188,57 @@
 
 	                return false;
 	            })
+
+	            $('#publish').click(function() {
+	                $form.ajaxForm({
+	                    dataType: 'json',
+	                    success: function(res) {
+	                        var success = res && res.success;
+	                        var data = res && res.data;
+	                        
+	                        if (success) {
+	                            if (data.url) {
+	                                location.href = data.url;  
+	                            } 
+	                        } else {
+	                            for (var key in data) {
+	                                // $('#' + key).removeClass('focus').addClass('err');
+	                                common.warn(data[key]);
+	                                break;
+	                            }
+	                        }
+	                    }
+	                })
+
+	                $form.submit();
+	            });
+
+	            $('#save').click(function() {
+	                var actionUrl = $(this).data('action');
+
+	                $form.ajaxForm({
+	                    url: actionUrl,
+	                    dataType: 'json',
+	                    success: function(res) {
+	                        var success = res && res.success;
+	                        var data = res && res.data;
+	                        
+	                        if (success) {
+	                            if (data.url) {
+	                                location.href = data.url;  
+	                            } 
+	                        } else {
+	                            for (var key in data) {
+	                                // $('#' + key).removeClass('focus').addClass('err');
+	                                common.warn(data[key]);
+	                                break;
+	                            }
+	                        }
+	                    }
+	                })
+
+	                $form.submit();
+	            });
 	        },
 	        initCheckForm: function() {
 	            var $selectWrapper = $('.select-wrapper');
@@ -204,82 +254,6 @@
 	                $('#action-type').val(value);
 	                $selectWrapper.find('.select-list-content').toggle();
 	            });
-	            //var $form=$("form#createActionStep").Validform({
-	            //    tiptype:3,
-	            //    label:".label",
-	            //    showAllError: false,
-	            //    datatype: {
-	            //        "zh1-6":/^[\u4E00-\u9FA5\uf900-\ufa2d]{1,6}$/,
-	            //        "image": function(gets,obj,curform,regxp){
-	            //            var reg1 = /\.jpg|png|git$/;
-	            //            if (reg1.test(gets)){
-	            //                return true;
-	            //            }
-	            //            return false;
-	            //        },
-	            //        'number': function(gets,obj,curform,regxp){
-	            //            var reg1 = /^\d+$/;
-	            //            if (reg1.test(gets)){
-	            //                return true;
-	            //            }
-	            //            return false;
-	            //        }
-	            //    }
-	            //});
-	            //
-	            ////$.Tipmsg.w["zh1-6"]="请输入1到6个中文字符！";
-	            //$form.tipmsg.w["zh1-6"]="请输入1到6个中文字符！";
-	            //
-	            //$form.addRule([
-	            //    {
-	            //        ele:"#name",
-	            //        datatype:"*2-20"
-	            //    },
-	            //    {
-	            //        ele:"#host",
-	            //        datatype:"*4-20"
-	            //    },
-	            //    {
-	            //        ele:"#city",
-	            //        datatype:"*1-50"
-	            //    },
-	            //
-	            //    {
-	            //        ele:"#other-local-msg",
-	            //        datatype:"*1-50"
-	            //    },
-	            //    {
-	            //        ele:"#desc",
-	            //        datatype:"*1-50000"
-	            //    },
-	            //    {
-	            //        ele:".select-date-time",
-	            //        nullmsg: "请选择日期",
-	            //        datatype:"*1-50000"
-	            //    },
-	            //    {
-	            //        ele:"#id_max_attend",
-	            //        nullmsg: "输入活动人数",
-	            //        errormsg: "活动人数非法",
-	            //        datatype:"number"
-	            //    },
-	            //    {
-	            //        ele:"#action-type",
-	            //        nullmsg: "请选择类型",
-	            //        datatype:"number"
-	            //    },
-	            //    {
-	            //        ele:"#id_reward",
-	            //        nullmsg: "请输入奖励金额",
-	            //        datatype:"number"
-	            //    },
-	            //    {
-	            //        ele:"#poster",
-	            //        nullmsg: "请选择一张图片",
-	            //        datatype:"image"
-	            //    }
-	            //]);
-
 	        }
 	    };
 
@@ -705,6 +679,10 @@
 	        //    })
 	        //}
 	    },
+
+	    warn: function(msg) {
+	        window.alert(msg);
+	    }
 	    
 	}
 
@@ -4323,6 +4301,15 @@
 
 	        if (inputType == 'file') {
 	            //file 校验规则;
+	        }
+	        if (inputType == 'radio' || inputType == 'checkbox') {
+	            //file 校验规则;
+	            var $checked = $input.closest('.input-wrapper').find("input:checked");
+	            if (!$checked.length) {
+	                return that.showValidateResult($input, nullMsg);
+	            } else {
+	                return that.hideValidateResult($input, nullMsg);
+	            }
 	        }
 
 	        if (!length && required) {

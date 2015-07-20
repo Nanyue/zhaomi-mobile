@@ -586,6 +586,10 @@
 	        //    })
 	        //}
 	    },
+
+	    warn: function(msg) {
+	        window.alert(msg);
+	    }
 	    
 	}
 
@@ -668,6 +672,15 @@
 
 	        if (inputType == 'file') {
 	            //file 校验规则;
+	        }
+	        if (inputType == 'radio' || inputType == 'checkbox') {
+	            //file 校验规则;
+	            var $checked = $input.closest('.input-wrapper').find("input:checked");
+	            if (!$checked.length) {
+	                return that.showValidateResult($input, nullMsg);
+	            } else {
+	                return that.hideValidateResult($input, nullMsg);
+	            }
 	        }
 
 	        if (!length && required) {

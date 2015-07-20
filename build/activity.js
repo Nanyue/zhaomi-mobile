@@ -40,13 +40,16 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(20);
 	__webpack_require__(24);
 	var common = __webpack_require__(27);
+	var applyList = __webpack_require__(58);
+
 	$(function() {
 
 	    var main = {
@@ -59,29 +62,12 @@
 
 	    };
 	    main.init();
+	    applyList.init();
 	});
 
 /***/ },
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */
+
+/***/ 20:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
@@ -107,7 +93,8 @@
 	}
 
 /***/ },
-/* 21 */
+
+/***/ 21:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -121,7 +108,8 @@
 
 
 /***/ },
-/* 22 */
+
+/***/ 22:
 /***/ function(module, exports) {
 
 	/*
@@ -177,7 +165,8 @@
 
 
 /***/ },
-/* 23 */
+
+/***/ 23:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -402,7 +391,8 @@
 
 
 /***/ },
-/* 24 */
+
+/***/ 24:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
@@ -428,7 +418,8 @@
 	}
 
 /***/ },
-/* 25 */
+
+/***/ 25:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -442,7 +433,8 @@
 
 
 /***/ },
-/* 26 */
+
+/***/ 26:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -456,7 +448,8 @@
 
 
 /***/ },
-/* 27 */
+
+/***/ 27:
 /***/ function(module, exports) {
 
 	$(function(){
@@ -517,8 +510,125 @@
 	        //    })
 	        //}
 	    },
+
+	    warn: function(msg) {
+	        window.alert(msg);
+	    }
 	    
 	}
 
+/***/ },
+
+/***/ 58:
+/***/ function(module, exports, __webpack_require__) {
+
+	var common = __webpack_require__(27);
+	var utils = common;
+	var zhaomi = common;
+
+	exports.init = function() {
+	    var btnMapper = {
+	        'approve': '<button class="z-btn btn-passed" data-optype="approve">通过</button>',
+	        'approve_cancel': '<button class="z-btn btn-passed" data-optype="approve_cancel">取消通过</button>',
+	        'deny': '<button class="z-btn btn-refuse" data-optype="deny">拒绝</button>',
+	        'deny_cancel': '<button class="z-btn btn-passed" data-optype="deny_cancel">取消拒绝</button>',
+	        'finish': '<button class="z-btn btn-passed" data-optype="finish">确认完成</button>',
+	        'finished': '<button class="z-btn btn-passed" data-optype="finished">已完成</button>',
+	        'denied': '<button class="z-btn btn-refuse">已谢绝</button>'
+	    }
+
+	    $('.mine-content').on('click', '.zui-btn', function() {
+	        var $applyItemCon = $(this).closest('.apply-item-content');
+	        var $applyItem = $applyItemCon.parent('.apply-item');
+	        var $container = $applyItem.closest('#mine-container');
+	        var opType = $(this).data('optype');
+	        var actionId = $container.data('action');
+	        var targetId = $applyItem.data('target');
+
+	        switch (opType) {
+	            case 'deny':
+	                post(opType, actionId, targetId, function() {
+	                    addBtns(['deny_cancel', 'denied']);
+	                });
+	                break;
+	            case 'deny_cancel':
+	                post(opType, actionId, targetId, function() {
+	                    addBtns(['approve', 'deny']);
+	                });
+	                break;
+	            case 'approve':
+	                post(opType, actionId, targetId, function() {
+	                    addBtns(['finish', 'approve_cancel']);
+	                });
+	                break;
+	            case 'approve_cancel':
+	                post(opType, actionId, targetId, function() {
+	                    addBtns(['approve', 'deny']);
+	                });
+	                break;
+	            case 'finish':
+	                post(opType, actionId, targetId, function() {
+	                    addBtns(['finished']);
+	                });
+	                break;
+	        }
+
+	        function removeBtns(opType) {
+	            if (btnMapper[opType]) {
+	                $applyItemCon.find('.zui-btn').remove();
+	            }
+	        }
+
+	        function addBtns(typeArr) {
+	            for (var i = 0, leni = typeArr.length; i < leni; i++) {
+	                $applyItemCon.append($(btnMapper[typeArr[i]]));
+	            }
+	        }
+
+	        function post(opType, actionId, target, callback) {
+	            zhaomi.postData('/mine/manage', {
+	                action: actionId,
+	                target: target,
+	                optype: opType,
+	            }, function(res) {
+	                var success = res && res.success;
+	                var data = res.data;
+
+	                if (res.success) {
+	                    removeBtns(opType);
+	                    callback();
+	                } else {
+	                    for (var i in data) {
+	                        utils.warn(data[i]);
+	                        break;
+	                    }
+	                    
+	                }
+	            });
+	        }
+	    })
+
+	    $('#apply-extra').on('click', '.export', function() {
+	        var $container = $('#mine-container');
+	        var action = $container.data('action');
+
+	        zhaomi.postData('/mine/manage', {
+	            optype: 'excel',
+	            action: action
+	        }, function(res) {
+	            var success = res && res.success;
+	            var data = res && res.data;
+	            
+	            if (success) {
+	                if (data.url) {
+	                    location.href = data.url;  
+	                } 
+	            }
+	        })
+	    })
+
+	}
+
 /***/ }
-/******/ ]);
+
+/******/ });

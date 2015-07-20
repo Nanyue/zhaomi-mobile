@@ -467,6 +467,10 @@
 	        //    })
 	        //}
 	    },
+
+	    warn: function(msg) {
+	        window.alert(msg);
+	    }
 	    
 	}
 

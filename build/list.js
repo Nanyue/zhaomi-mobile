@@ -54,6 +54,8 @@
 
 	$(function() {
 
+	    var $list = $('.activity-lists');
+
 	    var main = {
 	        init: function() {
 	            var $banner = $('.banner');
@@ -61,7 +63,7 @@
 	            //this.initCateList()
 	            this.initBanner($banner);
 	            this.initCateList();
-
+	            this.initEvents();
 	        },
 	        initLinkUrl: function($obj) {
 	            var urlParams = libUtil.parseQuery()
@@ -126,6 +128,16 @@
 	            $banner.unslider({
 	                dots: true
 	            });
+	        },
+
+	        initEvents: function() {
+	            $list.on('tap', '.activity-list-item', function() {
+	                var detailUrl = $(this).data('detail');
+
+	                if (detailUrl) {
+	                    location.href = detailUrl;
+	                }
+	            })
 	        }
 
 	    };
@@ -550,6 +562,10 @@
 	        //    })
 	        //}
 	    },
+
+	    warn: function(msg) {
+	        window.alert(msg);
+	    }
 	    
 	}
 

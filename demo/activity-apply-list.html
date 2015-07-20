@@ -42,16 +42,17 @@
                 </div>
             </div>
         </div>
-        <div class="mine-content">
-            <div class="tr">
+        <div id="mine-container" class="mine-content" data-action="">
+            <div class="tr apply-item" data-target="">
                 <div class="zui-flex tr-item">
                     <div class="zui-cell zui-flex-fixed">1.
                         <span class="img"><img src="//zhao-mi.net/m/assets/img/pic.png" alt=""/></span>
                     </div>
                     <div class="zui-cell "><span class="name">袁力皓</span></div>
-                    <div class="zui-cell zui-flex-fixed">
-                        <a class="zui-btn zui-btn-action btn-passed"><i class="zui-icon icon-success"></i>已通过</a>
-                        <a class="zui-btn zui-btn-important btn-refuse">已谢绝</a>
+                    <div class="zui-cell zui-flex-fixed apply-item-content">
+                        
+                        <a class="zui-btn zui-btn-important btn-refuse" data-optype="deny">拒绝</a>
+                        <a class="zui-btn zui-btn-action btn-passed" data-optype="approve">通过</a>
                     </div>
                     <div class="zui-cell zui-flex-fixed">
                         <div class="look-detail">详情 <i class="zui-icon icon-arrow-up"></i></div>
