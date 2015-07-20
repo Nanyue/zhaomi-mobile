@@ -46,8 +46,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(20);
-	var ValidateForm = __webpack_require__(36);
-	__webpack_require__(49);
+	var ValidateForm = __webpack_require__(35);
+	__webpack_require__(48);
 	var common = __webpack_require__(27);
 	var utils = common;
 
@@ -639,7 +639,7 @@
 
 /***/ },
 
-/***/ 36:
+/***/ 35:
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -717,6 +717,15 @@
 	        if (inputType == 'file') {
 	            //file 校验规则;
 	        }
+	        if (inputType == 'radio' || inputType == 'checkbox') {
+	            //file 校验规则;
+	            var $checked = $input.closest('.input-wrapper').find("input:checked");
+	            if (!$checked.length) {
+	                return that.showValidateResult($input, nullMsg);
+	            } else {
+	                return that.hideValidateResult($input, nullMsg);
+	            }
+	        }
 
 	        if (!length && required) {
 	            return that.showValidateResult($input, nullMsg);
@@ -767,13 +776,13 @@
 
 /***/ },
 
-/***/ 49:
+/***/ 48:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(50);
+	var content = __webpack_require__(49);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(23)(content, {});
@@ -794,7 +803,7 @@
 
 /***/ },
 
-/***/ 50:
+/***/ 49:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();

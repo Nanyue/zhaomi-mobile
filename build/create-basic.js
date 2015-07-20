@@ -46,16 +46,16 @@
 
 	__webpack_require__(20);
 	//require('../../../common/pkgs/progress/progress');
+	__webpack_require__(28);
 	__webpack_require__(29);
 	__webpack_require__(30);
-	__webpack_require__(31);
-	__webpack_require__(33);
+	__webpack_require__(32);
 
-	var FastClick = __webpack_require__(35);
+	var FastClick = __webpack_require__(34);
 	var common = __webpack_require__(27);
-	var ValidateForm = __webpack_require__(36);
+	var ValidateForm = __webpack_require__(35);
 
-	var city = __webpack_require__(37);
+	var city = __webpack_require__(36);
 	var utils = {
 	    warn: function(msg) {
 	        alert(msg);
@@ -254,82 +254,6 @@
 	                $('#action-type').val(value);
 	                $selectWrapper.find('.select-list-content').toggle();
 	            });
-	            //var $form=$("form#createActionStep").Validform({
-	            //    tiptype:3,
-	            //    label:".label",
-	            //    showAllError: false,
-	            //    datatype: {
-	            //        "zh1-6":/^[\u4E00-\u9FA5\uf900-\ufa2d]{1,6}$/,
-	            //        "image": function(gets,obj,curform,regxp){
-	            //            var reg1 = /\.jpg|png|git$/;
-	            //            if (reg1.test(gets)){
-	            //                return true;
-	            //            }
-	            //            return false;
-	            //        },
-	            //        'number': function(gets,obj,curform,regxp){
-	            //            var reg1 = /^\d+$/;
-	            //            if (reg1.test(gets)){
-	            //                return true;
-	            //            }
-	            //            return false;
-	            //        }
-	            //    }
-	            //});
-	            //
-	            ////$.Tipmsg.w["zh1-6"]="请输入1到6个中文字符！";
-	            //$form.tipmsg.w["zh1-6"]="请输入1到6个中文字符！";
-	            //
-	            //$form.addRule([
-	            //    {
-	            //        ele:"#name",
-	            //        datatype:"*2-20"
-	            //    },
-	            //    {
-	            //        ele:"#host",
-	            //        datatype:"*4-20"
-	            //    },
-	            //    {
-	            //        ele:"#city",
-	            //        datatype:"*1-50"
-	            //    },
-	            //
-	            //    {
-	            //        ele:"#other-local-msg",
-	            //        datatype:"*1-50"
-	            //    },
-	            //    {
-	            //        ele:"#desc",
-	            //        datatype:"*1-50000"
-	            //    },
-	            //    {
-	            //        ele:".select-date-time",
-	            //        nullmsg: "请选择日期",
-	            //        datatype:"*1-50000"
-	            //    },
-	            //    {
-	            //        ele:"#id_max_attend",
-	            //        nullmsg: "输入活动人数",
-	            //        errormsg: "活动人数非法",
-	            //        datatype:"number"
-	            //    },
-	            //    {
-	            //        ele:"#action-type",
-	            //        nullmsg: "请选择类型",
-	            //        datatype:"number"
-	            //    },
-	            //    {
-	            //        ele:"#id_reward",
-	            //        nullmsg: "请输入奖励金额",
-	            //        datatype:"number"
-	            //    },
-	            //    {
-	            //        ele:"#poster",
-	            //        nullmsg: "请选择一张图片",
-	            //        datatype:"image"
-	            //    }
-	            //]);
-
 	        }
 	    };
 
@@ -768,8 +692,7 @@
 	}
 
 /***/ },
-/* 28 */,
-/* 29 */
+/* 28 */
 /***/ function(module, exports) {
 
 	/*!
@@ -2044,7 +1967,7 @@
 	}));
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports) {
 
 	/*
@@ -3380,13 +3303,13 @@
 	})(jQuery,window);
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(32);
+	var content = __webpack_require__(31);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(23)(content, {});
@@ -3406,7 +3329,7 @@
 	}
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -3420,13 +3343,13 @@
 
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(34);
+	var content = __webpack_require__(33);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(23)(content, {});
@@ -3446,7 +3369,7 @@
 	}
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -3460,7 +3383,7 @@
 
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;;(function () {
@@ -4306,7 +4229,7 @@
 	}());
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -4384,6 +4307,15 @@
 	        if (inputType == 'file') {
 	            //file 校验规则;
 	        }
+	        if (inputType == 'radio' || inputType == 'checkbox') {
+	            //file 校验规则;
+	            var $checked = $input.closest('.input-wrapper').find("input:checked");
+	            if (!$checked.length) {
+	                return that.showValidateResult($input, nullMsg);
+	            } else {
+	                return that.hideValidateResult($input, nullMsg);
+	            }
+	        }
 
 	        if (!length && required) {
 	            return that.showValidateResult($input, nullMsg);
@@ -4433,16 +4365,16 @@
 	};
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	__webpack_require__(38);
+	__webpack_require__(37);
 
-	__webpack_require__(40);
-	var libUtil = __webpack_require__(41);
+	__webpack_require__(39);
+	var libUtil = __webpack_require__(40);
 
-	var template = __webpack_require__(42);
+	var template = __webpack_require__(41);
 
 	//区域选择
 	module.exports = {
@@ -4605,13 +4537,13 @@
 
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(39);
+	var content = __webpack_require__(38);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(23)(content, {});
@@ -4631,7 +4563,7 @@
 	}
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -4645,7 +4577,7 @@
 
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports) {
 
 	
@@ -4779,7 +4711,7 @@
 	//-->
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -4808,7 +4740,7 @@
 	}
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!art-template - Template Engine | http://aui.github.com/artTemplate/*/
