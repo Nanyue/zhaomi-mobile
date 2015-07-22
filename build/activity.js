@@ -40,15 +40,14 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(20);
 	__webpack_require__(24);
 	var common = __webpack_require__(27);
-	var applyList = __webpack_require__(58);
+	var applyList = __webpack_require__(28);
 
 	$(function() {
 
@@ -66,8 +65,26 @@
 	});
 
 /***/ },
-
-/***/ 20:
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
@@ -93,8 +110,7 @@
 	}
 
 /***/ },
-
-/***/ 21:
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -108,8 +124,7 @@
 
 
 /***/ },
-
-/***/ 22:
+/* 22 */
 /***/ function(module, exports) {
 
 	/*
@@ -165,8 +180,7 @@
 
 
 /***/ },
-
-/***/ 23:
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -391,8 +405,7 @@
 
 
 /***/ },
-
-/***/ 24:
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
@@ -418,8 +431,7 @@
 	}
 
 /***/ },
-
-/***/ 25:
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -433,8 +445,7 @@
 
 
 /***/ },
-
-/***/ 26:
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();
@@ -448,8 +459,7 @@
 
 
 /***/ },
-
-/***/ 27:
+/* 27 */
 /***/ function(module, exports) {
 
 	$(function(){
@@ -488,43 +498,45 @@
 	});
 
 	var noop = function() {}
-	module.exports = {
-	    postData: function(url, data, successCallback, errorCallback) {
+	exports.postData = function(url, data, successCallback, errorCallback) {
 
-	        var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
-	        return $.ajax({
-	            url: url,
-	            type: 'post',
-	            data: $.extend(data, {csrfmiddlewaretoken: csrfToken}), 
-	            success: successCallback || noop,
-	            error: errorCallback || noop
-	        })
-	    },
-	    initTab: function() {
+	    var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+	    return $.ajax({
+	        url: url,
+	        type: 'post',
+	        data: $.extend(data, {csrfmiddlewaretoken: csrfToken}), 
+	        success: successCallback || noop,
+	        error: errorCallback || noop
+	    })
+	}
+	exports.warn = function(msg) {
+	    window.alert(msg);
+	}
 
+	// 根据传入参数拼装url，并跳转到该url
+	exports.goTo = function(params, without) {
+	    var oldParams = without ? {} : this.getUrlParameter();
+	    var newParams = $.extend({}, oldParams, params);
 
-	    },
-	    initNav: function() {
-	        //var $nav = $('.nav');
-	        //if($nav.length){
-	        //    $nav.on('touchend', '.active', function(e){
-	        //        e.preventDefault();
-	        //
-	        //        window.history.back();
-	        //        return false;
-	        //    })
-	        //}
-	    },
+	    location.href = '/search?' + $.param(newParams);
+	}
 
-	    warn: function(msg) {
-	        window.alert(msg);
+	exports.getUrlParameter = function() {
+	    var sPageURL = window.location.search.substring(1);
+	    var sURLVariables = sPageURL.split('&');
+	    var pairs;
+	    var ret = {};
+	    for (var i = 0; i < sURLVariables.length; i++) {
+	        var pairs = sURLVariables[i].split('=');
+	        if (pairs[0]) {
+	            ret[pairs[0]] = decodeURIComponent(pairs[1]);
+	        }
 	    }
-	    
+	    return ret;
 	}
 
 /***/ },
-
-/***/ 58:
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var common = __webpack_require__(27);
@@ -635,5 +647,4 @@
 	}
 
 /***/ }
-
-/******/ });
+/******/ ]);

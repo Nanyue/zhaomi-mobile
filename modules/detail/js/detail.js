@@ -23,11 +23,11 @@ $(function() {
                 var data = collectData();
                 $(this).ajaxSubmit({
                     beforeSubmit: function() {
-                        //if ($('.content .item').length !== data.length) {
-                        //    common.warn('有题目未作答！')
-                        //    return false;
-                        //}
-                        return ValidateForm.checkForm($formCondition);
+                        if ($('.content .item').length !== data.length) {
+                           common.warn('有题目未作答！')
+                           return false;
+                        }
+                        // return ValidateForm.checkForm($formCondition);
                     },
                     dataType: 'json',
                     data: {
@@ -85,7 +85,7 @@ function collectData() {
             if (arr.length) {
                 data.push({
                     type: type,
-                    result: arr.length === 1? arr[0] : arr
+                    result: type === RADIO? arr[0] : arr
                 })
             }
             

@@ -46,7 +46,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(20);
-	__webpack_require__(54);
+	__webpack_require__(55);
 	var common = __webpack_require__(27);
 	var utils = common;
 	var zhaomi = common;
@@ -669,49 +669,52 @@
 	});
 
 	var noop = function() {}
-	module.exports = {
-	    postData: function(url, data, successCallback, errorCallback) {
+	exports.postData = function(url, data, successCallback, errorCallback) {
 
-	        var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
-	        return $.ajax({
-	            url: url,
-	            type: 'post',
-	            data: $.extend(data, {csrfmiddlewaretoken: csrfToken}), 
-	            success: successCallback || noop,
-	            error: errorCallback || noop
-	        })
-	    },
-	    initTab: function() {
+	    var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+	    return $.ajax({
+	        url: url,
+	        type: 'post',
+	        data: $.extend(data, {csrfmiddlewaretoken: csrfToken}), 
+	        success: successCallback || noop,
+	        error: errorCallback || noop
+	    })
+	}
+	exports.warn = function(msg) {
+	    window.alert(msg);
+	}
 
+	// 根据传入参数拼装url，并跳转到该url
+	exports.goTo = function(params, without) {
+	    var oldParams = without ? {} : this.getUrlParameter();
+	    var newParams = $.extend({}, oldParams, params);
 
-	    },
-	    initNav: function() {
-	        //var $nav = $('.nav');
-	        //if($nav.length){
-	        //    $nav.on('touchend', '.active', function(e){
-	        //        e.preventDefault();
-	        //
-	        //        window.history.back();
-	        //        return false;
-	        //    })
-	        //}
-	    },
+	    location.href = '/search?' + $.param(newParams);
+	}
 
-	    warn: function(msg) {
-	        window.alert(msg);
+	exports.getUrlParameter = function() {
+	    var sPageURL = window.location.search.substring(1);
+	    var sURLVariables = sPageURL.split('&');
+	    var pairs;
+	    var ret = {};
+	    for (var i = 0; i < sURLVariables.length; i++) {
+	        var pairs = sURLVariables[i].split('=');
+	        if (pairs[0]) {
+	            ret[pairs[0]] = decodeURIComponent(pairs[1]);
+	        }
 	    }
-	    
+	    return ret;
 	}
 
 /***/ },
 
-/***/ 54:
+/***/ 55:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(55);
+	var content = __webpack_require__(56);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(23)(content, {});
@@ -732,7 +735,7 @@
 
 /***/ },
 
-/***/ 55:
+/***/ 56:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(22)();

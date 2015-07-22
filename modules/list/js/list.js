@@ -20,18 +20,14 @@ $(function() {
             this.initEvents();
         },
         initLinkUrl: function($obj) {
-            var urlParams = libUtil.parseQuery()
-            $obj.find('.tab-content-item').each(function(index, item) {
-                var typeName = $(item).find('ul').data('type-name');
-                var aLinks = $(item).find('a');
-                var type = urlParams[type];
 
-                aLinks.each(function(index, linkItem) {
-                    var $linkItem = $(linkItem);
-                    urlParams[typeName] = $linkItem.data('type');
-                    $linkItem.attr('href', window.location.href.split('?')[0] + '?' + $.param(urlParams))
-                })
-            });
+            $obj.on('click', '.tab-content-item a', function() {
+                var typeName = $(this).closest('ul').data('type-name');
+                var newParams = {};
+                newParams[typeName] = $(this).data('type');
+
+                common.goTo(newParams);
+            })
         },
         initCateList: function() {
             var $cateList = $('#cateList');
