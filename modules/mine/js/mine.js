@@ -74,15 +74,6 @@ $(function() {
                         }
                     });
                 }
-            }).on('click', '.activity-list-item .c-share, .activity-list-item .b-share, .activity-list-item .share', function() {
-                var $actionCard = $(this).closest('.activity-list-item');
-                var shareLink = $actionCard.data('link');
-
-                if (shareLink) {
-                    shareBox.show({
-                        shareLink: shareLink
-                    })
-                }
             }).on('click', '.activity-list-item .like', function() {
                 var $like = $(this);
                 var $actionCard = $(this).closest('.activity-list-item');

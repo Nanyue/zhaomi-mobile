@@ -10,6 +10,7 @@ $(function() {
         },
         initEvents: function() {
             var $formCondition = this.$formCondition = $('#formCondition');
+            var $banner = $('.banner');
             $formCondition.on('blur', 'input, textarea', function(e) {
                 var $this = $(e.currentTarget);
                 ValidateForm.checkInput($this);
@@ -52,6 +53,25 @@ $(function() {
                 });
 
                 return false;
+            });
+            $banner.on('click', '.like', function() {
+                var $like = $(this);
+                var $actionCard = $(this).closest('.banner');
+                var actionId = $actionCard.data('id');
+                
+                zhaomi.postData('/action/like', {
+                    id: actionId
+                }, function(res) {
+                    var success = res && res.success;
+
+                    if (success) {
+                        if ($like.hasClass('.icon-like')) {
+                            $like.removeClass('icon-like').addClass('icon-unlike');
+                        } else {
+                            $like.removeClass('icon-unlike').addClass('icon-like');
+                        }
+                    }
+                })
             })
         }
     };
