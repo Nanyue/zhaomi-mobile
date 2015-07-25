@@ -8,7 +8,6 @@ $(function() {
 
     var $list = $('.activity-lists');
     var $form = $('#personal-info-form');
-
     ({
         init: function() {
             this.$pageMine = $('#pageMine');
@@ -16,9 +15,28 @@ $(function() {
             if ($userCenterPage.length) {
                 this.isUserCenterPage = true;
             }
-            this.initEvent()
+            this.initEvent();
+            this.initDatePicker();
+
+        },
+        initDatePicker: function() {
+            var $target = $('.age .edit-input');
+            var opt={};
+            opt.date = {preset : 'date'};
+            opt.datetime = {preset : 'datetime'};
+            opt.time = {preset : 'time'};
+            opt.default = {
+                theme: 'android-ics light', //皮肤样式
+                display: 'modal', //显示方式
+                mode: 'scroller', //日期选择模式
+                lang: 'zh',
+                showNow: true,
+                nowText: "今天"
+            };
+            $target.mobiscroll($.extend(opt['date'], opt['default']));
         },
         initEvent: function() {
+            var that = this;
             if (this.isUserCenterPage) {
                 this.$userCenterPage.on('click', '.btn-edit', function(e) {
                     var $target = $(e.currentTarget);
@@ -27,7 +45,12 @@ $(function() {
                 });
                 this.$userCenterPage.on('click', '.btn-save', function(e) {
                     // var $target = $(e.currentTarget);
+
                     
+                });
+
+                this.$userCenterPage.on('click', '.editing .age .edit-input', function(e) {
+                    var $target = $(e.currentTarget);
                 });
 
                 this.$userCenterPage.on('input', '.edit-item input', function(e) {
