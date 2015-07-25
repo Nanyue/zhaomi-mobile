@@ -5,6 +5,7 @@ require('../../../lib/event-swipe/event-swipe');
 var city = require('../../../lib/city/city');
 var libUtil = require('../../../lib/common/util');
 var common = require('../../../lib/common/common.js');
+var utils = common;
 
 $(function() {
 
@@ -88,6 +89,35 @@ $(function() {
                 if (detailUrl) {
                     location.href = detailUrl;
                 }
+            })
+
+            var fullDataReturned = true;
+            var from = 12, size = 12;
+
+            $('.more-btn').click(function() {
+                if (!fullDataReturned) {
+                    $(this).parent().addClass('no-more');
+                }
+
+                $.ajax({
+                    url: utils.getJSONPUrl(from, size),
+                    dataType: 'jsonp',
+                    success: function(data) {
+                        data = data || {};
+                        if (data.size === size) {
+                            fullDataReturned = true;
+                            from = from + size;
+                        } else {
+                            fullDataReturned = false;
+                        }
+                        
+                        $('.activity-lists').append(data.html);
+                        
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown)
+                    }
+                });
             })
         }
 
