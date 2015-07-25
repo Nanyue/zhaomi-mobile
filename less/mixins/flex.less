@@ -115,6 +115,11 @@
             // http://stackoverflow.com/questions/15381172/css-flexbox-child-height-100
             position: relative;
 
+            .date {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
             &.zui-flex-fixed {
                 //flex: none !important;
                 .lh-flex(none) !important;

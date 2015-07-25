@@ -74,20 +74,6 @@ $(function() {
                         }
                     });
                 }
-            }).on('click', '.activity-list-item .like', function() {
-                var $like = $(this);
-                var $actionCard = $(this).closest('.activity-list-item');
-                var actionId = $actionCard.data('id');
-                
-                zhaomi.postData('/action/like', {
-                    id: actionId
-                }, function(res) {
-                    var success = res && res.success;
-
-                    if (success) {
-                        $like.toggleClass('selected');
-                    }
-                })
             }).on('click', '.activity-list-item .publish', function() {
                 var $actionCard = $(this).closest('.activity-list-item');
                 var actionId = $actionCard.data('id');

@@ -83,24 +83,4 @@ exports.init = function() {
             });
         }
     })
-
-    $('#apply-extra').on('click', '.export', function() {
-        var $container = $('#mine-container');
-        var action = $container.data('action');
-
-        zhaomi.postData('/mine/manage', {
-            optype: 'excel',
-            action: action
-        }, function(res) {
-            var success = res && res.success;
-            var data = res && res.data;
-            
-            if (success) {
-                if (data.url) {
-                    location.href = data.url;  
-                } 
-            }
-        })
-    })
-
 }

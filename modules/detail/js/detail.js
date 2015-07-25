@@ -2,6 +2,7 @@ require('../../../common/pkgs/button/button');
 require('../css/detail');
 require('../../../lib/jquery-form/jquery.form');
 var common = require('../../../lib/common/common.js');
+var zhaomi = common;
 var ValidateForm = require('../../../lib/common/validateform.js');
 $(function() {
     var main = {
@@ -65,7 +66,7 @@ $(function() {
                     var success = res && res.success;
 
                     if (success) {
-                        if ($like.hasClass('.icon-like')) {
+                        if ($like.hasClass('icon-like')) {
                             $like.removeClass('icon-like').addClass('icon-unlike');
                         } else {
                             $like.removeClass('icon-unlike').addClass('icon-like');
