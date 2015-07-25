@@ -4,18 +4,18 @@ var zhaomi = common;
 
 exports.init = function() {
     var btnMapper = {
-        'approve': '<button class="z-btn btn-passed" data-optype="approve">通过</button>',
-        'approve_cancel': '<button class="z-btn btn-passed" data-optype="approve_cancel">取消通过</button>',
-        'deny': '<button class="z-btn btn-refuse" data-optype="deny">拒绝</button>',
-        'deny_cancel': '<button class="z-btn btn-passed" data-optype="deny_cancel">取消拒绝</button>',
-        'finish': '<button class="z-btn btn-passed" data-optype="finish">确认完成</button>',
-        'finished': '<button class="z-btn btn-passed" data-optype="finished">已完成</button>',
-        'denied': '<button class="z-btn btn-refuse">已谢绝</button>'
+        'approve': '<button class="zui-btn btn-passed" data-optype="approve">通过</button>',
+        'approve_cancel': '<button class="zui-btn btn-passed" data-optype="approve_cancel">取消通过</button>',
+        'deny': '<button class="zui-btn btn-refuse" data-optype="deny">拒绝</button>',
+        'deny_cancel': '<button class="zui-btn btn-passed" data-optype="deny_cancel">取消拒绝</button>',
+        'finish': '<button class="zui-btn btn-passed" data-optype="finish">确认完成</button>',
+        'finished': '<button class="zui-btn btn-passed" data-optype="finished">已完成</button>',
+        'denied': '<button class="zui-btn btn-refuse">已谢绝</button>'
     }
 
     $('.mine-content').on('click', '.zui-btn', function() {
         var $applyItemCon = $(this).closest('.apply-item-content');
-        var $applyItem = $applyItemCon.parent('.apply-item');
+        var $applyItem = $applyItemCon.closest('.apply-item');
         var $container = $applyItem.closest('#mine-container');
         var opType = $(this).data('optype');
         var actionId = $container.data('action');
@@ -82,5 +82,9 @@ exports.init = function() {
                 }
             });
         }
+    }).on('click', '.look-detail', function(e) {
+        var $target = $(e.currentTarget);
+        $target.closest('.tr').toggleClass('open');
     })
+
 }

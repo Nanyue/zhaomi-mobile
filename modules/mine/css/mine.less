@@ -157,3 +157,57 @@
     }
   }
 }
+#pageActivityApplyList{
+  .activity-msg-detail{
+    display: none;
+  }
+  .tr.open{
+    .icon-arrow-up{
+      .rotateZ(180deg);
+    }
+    .activity-msg-detail{
+      display: block;
+    }
+  }
+  
+  .icon-arrow-up{
+    background-position: -52px 0;
+  }
+}
+.mine-content {
+  button {
+    float: right;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 12px;
+    padding: 0 12px;
+    .border-radius(15px);
+    &.btn-refuse {
+      color: white;
+      border: none;
+      background-color: #f56467;
+    }
+    &.btn-passed {
+      color: white;
+      border: none;
+      background-color: #7ed321;
+    }
+  } 
+}
+
+.more {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  span {
+    display: none;
+  }
+}
+.no-more {
+  button {
+    display: none;
+  }
+  span {
+    display: inline-block;
+  }
+}

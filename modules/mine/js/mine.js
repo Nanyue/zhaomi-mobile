@@ -1,13 +1,17 @@
 require('../../../common/pkgs/button/button');
 require('../css/mine');
+var applyList = require('./apply-list');
 var common = require('../../../lib/common/common.js');
 
 var zhaomi = common;
+var utils = common;
 
 $(function() {
 
     var $list = $('.activity-lists');
     var $form = $('#personal-info-form');
+    applyList.init();
+
     ({
         init: function() {
             this.$pageMine = $('#pageMine');
@@ -221,5 +225,34 @@ $(function() {
             });
         }
     }.init());
+
+    var fullDataReturned = true;
+    var from = 12, size = 12;
+
+    $('.more-btn').click(function() {
+
+        var $moreBtn = $(this);
+
+        $.ajax({
+            url: utils.getJSONPUrl(from, size),
+            dataType: 'jsonp',
+            success: function(data) {
+                data = data || {};
+                if (data.size === size) {
+                    fullDataReturned = true;
+                    from = from + size;
+                } else {
+                    fullDataReturned = false;
+                    $moreBtn.parent().addClass('no-more');
+                }
+                
+                $('.activity-lists').append(data.html);
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown)
+            }
+        });
+    })
 
 });
