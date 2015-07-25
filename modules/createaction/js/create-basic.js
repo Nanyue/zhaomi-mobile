@@ -78,12 +78,13 @@ $(function() {
                     theme: 'android-ics light', //皮肤样式
                     display: 'bottom', //显示方式
                     mode: 'scroller', //日期选择模式
-                    dateFormat: 'yyyy-mm-dd',
+                    dateFormat: 'yy-mm-dd',
+                    timeFormat: 'HH:ii',
                     lang: 'zh',
                     showNow: true,
                     nowText: "今天",
-                    startYear: currYear - 10, //开始年份
-                    endYear: currYear + 10,//结束年份,
+                    // startYear: currYear - 10, //开始年份
+                    // endYear: currYear + 10,//结束年份,
                     onSelect: function(e) {
                         var endValue = $appDate.eq(1).val();
                         var startValue = $appDate.eq(0).val();

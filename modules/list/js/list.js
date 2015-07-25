@@ -76,7 +76,7 @@ $(function() {
         },
 
         initBanner: function($banner) {
-            $banner.height($(window).width() * 5 / 8);
+            $banner.height($(window).width() * 60 / 119);
             $banner.unslider({
                 dots: true
             });
@@ -95,9 +95,7 @@ $(function() {
             var from = 12, size = 12;
 
             $('.more-btn').click(function() {
-                if (!fullDataReturned) {
-                    $(this).parent().addClass('no-more');
-                }
+                var $moreBtn = $(this);
 
                 $.ajax({
                     url: utils.getJSONPUrl(from, size),
@@ -109,6 +107,7 @@ $(function() {
                             from = from + size;
                         } else {
                             fullDataReturned = false;
+                            $moreBtn.parent().addClass('no-more');
                         }
                         
                         $('.activity-lists').append(data.html);
