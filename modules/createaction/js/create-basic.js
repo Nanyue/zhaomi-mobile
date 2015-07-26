@@ -76,7 +76,7 @@ $(function() {
                 };
                 opt.default = {
                     theme: 'android-ics light', //皮肤样式
-                    display: 'bottom', //显示方式
+                    display: 'modal', //显示方式
                     mode: 'scroller', //日期选择模式
                     dateFormat: 'yy-mm-dd',
                     timeFormat: 'HH:ii',
@@ -86,6 +86,7 @@ $(function() {
                     // startYear: currYear - 10, //开始年份
                     // endYear: currYear + 10,//结束年份,
                     onSelect: function(e) {
+                        console.log(arguments)
                         var endValue = $appDate.eq(1).val();
                         var startValue = $appDate.eq(0).val();
                         if (endValue && startValue >= endValue) {

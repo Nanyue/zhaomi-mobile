@@ -1027,6 +1027,7 @@
     padding: 1px 10px;
 }
 .android-ics .dwv {
+    display: block;
     height: 36px;
     line-height: 36px;
     padding: 0;

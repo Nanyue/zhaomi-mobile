@@ -64,12 +64,18 @@ $(function() {
                     id: actionId
                 }, function(res) {
                     var success = res && res.success;
+                    var data = res && res.data;
 
                     if (success) {
-                        if ($like.hasClass('icon-like')) {
-                            $like.removeClass('icon-like').addClass('icon-unlike');
+
+                        if (data && data.url) {
+                            location.href = data.url;
                         } else {
-                            $like.removeClass('icon-unlike').addClass('icon-like');
+                            if ($like.hasClass('icon-like')) {
+                                $like.removeClass('icon-like').addClass('icon-unlike');
+                            } else {
+                                $like.removeClass('icon-unlike').addClass('icon-like');
+                            }
                         }
                     }
                 })
