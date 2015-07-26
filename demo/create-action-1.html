@@ -88,10 +88,16 @@
                     <div class="input-wrapper ">
                         <div class="zui-flex">
                             <div class="zui-cell">
-                                <input id="start-date" type="text" readonly="readonly"  data-required="true" name="start-name" class="zui-input-text select-date-time" value="" placeholder="选择开始时间" />
+                            <label class="start-date-lbl date-lbl" for="start-date">
+                                <input id="start-date" type="hidden" readonly="readonly"  data-required="true" name="start-name" class="zui-input-text select-date-time" value="" placeholder="请选择开始时间" />
+                                <span class="ph">请选择开始时间</span>
+                            </label>
                             </div>
                             <div class="zui-cell end-time">
-                                <input type="text" readonly="readonly"  data-required="true" name="end-name" class="zui-cell zui-input-text select-date-time" value="" placeholder="选择结束时间" />
+                            <label class="end-date-lbl date-lbl" for="end-date">
+                                <input id="end-date" type="hidden" readonly="readonly"  data-required="true" name="end-name" class="zui-cell zui-input-text select-date-time" value="" placeholder="请选择结束时间" />
+                                <span class="ph">请选择结束时间</span>
+                            </label>
                             </div>
                         </div>
                         <div class="Validform_checktip  Validform_wrong"></div>

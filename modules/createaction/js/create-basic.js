@@ -55,6 +55,14 @@ $(function() {
                 initDatePicker($item, type);
             });
 
+            $('.start-date-lbl').click(function() {
+                $('#start-date').mobiscroll('show');
+            })
+
+            $('.end-date-lbl').click(function() {
+                $('#end-date').mobiscroll('show');
+            })
+
             function initDatePicker(obj, type) {
                 if (!type) {
                     type = 'datetime';
@@ -85,21 +93,24 @@ $(function() {
                     nowText: "今天",
                     // startYear: currYear - 10, //开始年份
                     // endYear: currYear + 10,//结束年份,
-                    onSelect: function(e) {
-                        console.log(arguments)
-                        var endValue = $appDate.eq(1).val();
-                        var startValue = $appDate.eq(0).val();
-                        if (endValue && startValue >= endValue) {
-                            ValidateForm.showValidateResult($appDate.eq(1), '开始时间要大于结束时间');
-                            return false;
-                        } else {
-                            ValidateForm.hideValidateResult($appDate.eq(1));
+                    onSelect: (function(target) {
+                        return function(val) {
+                            target.siblings('span').removeClass('ph').text(val);
+                            var endValue = $appDate.eq(1).val();
+                            var startValue = $appDate.eq(0).val();
+                            if (endValue && startValue >= endValue) {
+                                ValidateForm.showValidateResult($appDate.eq(1), '开始时间要大于结束时间');
+                                return false;
+                            } else {
+                                ValidateForm.hideValidateResult($appDate.eq(1));
+                            }
+                            $('.select-date-time').removeClass('Validform_error');
                         }
-                        $('.select-date-time').removeClass('Validform_error');
-                    }
+                    })(obj)
                 };
                 var optDateTime = $.extend(opt['datetime'], opt['default']);
-                obj.mobiscroll(optDateTime).datetime(optDateTime);
+                obj.mobiscroll().datetime(optDateTime);
+                // obj.mobiscroll('show');
             }
 
         },
