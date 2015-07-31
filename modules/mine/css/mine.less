@@ -1,5 +1,5 @@
 @import '../../../lib/common/common.less';
-
+@import './exchange.less';
 
 .user-center{
   text-align: center;
@@ -10,14 +10,14 @@
 
   }
   .user-msg{
-    height: 145px;
+    height: 155px;
     input{
       width: 100px;
     }
 
   }
   .edit-input{
-    line-height: 29px;
+    line-height: 30px;
     height: 30px;
     text-align: center;
     border:1px solid transparent;
@@ -81,10 +81,8 @@
     display: none;
   }
   .display-text{
+    font-size: 20px;
     display: inline-block;
-  }
-  .edit-input{
-    display: none;
   }
   .edit-input:focus{
     border-bottom-color: #7ED321;
@@ -99,6 +97,14 @@
     }
     .edit-input{
       display: inline-block;
+    }
+    .user-name {
+      height: 40px;
+      line-height: 40px;
+      font-size: 25px;
+    }
+    .mobile {
+      display: none;
     }
     .btn-save{
       display: block;
@@ -120,7 +126,7 @@
     line-height: 30px;
     text-align: center;
     display: block;
-    margin:0 auto 8px;
+    margin:8px auto 8px;
   }
 
   .mobile .edit-input{

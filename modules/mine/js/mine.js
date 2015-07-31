@@ -5,6 +5,7 @@ var common = require('../../../lib/common/common.js');
 
 var zhaomi = common;
 var utils = common;
+var rAlipay = /^\w+$/;
 
 $(function() {
 
@@ -12,7 +13,7 @@ $(function() {
     var $form = $('#personal-info-form');
     applyList.init();
 
-    ({
+    var main = {
         init: function() {
             this.$pageMine = $('#pageMine');
             var $userCenterPage = this.$userCenterPage = this.$pageMine.find('#userCenterPage');
@@ -24,7 +25,7 @@ $(function() {
 
         },
         initDatePicker: function() {
-            var $target = $('.age .edit-input');
+            var $target = $('.bday .edit-input');
             var opt={};
             opt.date = {preset : 'date'};
             opt.datetime = {preset : 'datetime'};
@@ -32,45 +33,114 @@ $(function() {
             opt.default = {
                 theme: 'android-ics light', //皮肤样式
                 display: 'modal', //显示方式
+                dateFormat: 'yy-mm-dd',
                 mode: 'scroller', //日期选择模式
                 lang: 'zh',
                 showNow: true,
                 nowText: "今天"
             };
-            $target.mobiscroll($.extend(opt['date'], opt['default']));
+            if ($target.mobiscroll) {
+                $target.mobiscroll($.extend(opt['date'], opt['default']));    
+            }
         },
         initEvent: function() {
             var that = this;
             if (this.isUserCenterPage) {
                 this.$userCenterPage.on('click', '.btn-edit', function(e) {
-                    var $target = $(e.currentTarget);
-                    var $userMsg = $target.closest('.content');
+                    var $userMsg = $(this).closest('.content');
                     $userMsg.addClass('editing');
                 });
-                this.$userCenterPage.on('click', '.btn-save', function(e) {
-                    // var $target = $(e.currentTarget);
 
-                    
+                var $userMsg = $('#user-msg');
+                var $form = $('#personal-info-form');
+                var $exchangeBox = $('#exchange-box');
+                var $otherMsg = $('.other-msg');
+
+                $userMsg.on('click', '.exchange', function() {
+                    $otherMsg.hide();
+                    $exchangeBox.show();
                 });
 
-                this.$userCenterPage.on('click', '.editing .age .edit-input', function(e) {
-                    var $target = $(e.currentTarget);
+                $form.submit(function() {
+
+                    var name = $('.name input').val();
+                    var gender = $('.gender select').val();
+                    var bday = $('.bday input').val();
+
+                    $(this).ajaxSubmit({
+                        beforeSubmit: function(formData, jqForm, options) {
+                            
+                            if (!name) {
+                                utils.warn('请填写姓名!');
+                                return false;
+                            }
+
+                            if (!bday || !/\d{4}\-\d{2}-\d{2}/.test(bday)) {
+                                utils.warn('请选择生日，格式为1990-01-01!');
+                                return false;
+                            }
+                        },
+                        dataType: 'json',
+                        success: function(res) {
+                            var success = res && res.success;
+                            var data = res && res.data;
+                            
+                            if (success) {
+                                $userMsg.removeClass('editing');
+                                for (var key in data) {
+                                    if (key === 'portrait' && data[key]) {
+                                        $userMsg.find('.user-pic img')
+                                            .attr('src', data[key]);
+                                    } else {
+                                        $userMsg.find('#' + key + ' span').text(data[key]);    
+                                    }
+                                }
+                            } else {
+                                for (var key in data) {
+                                    utils.warn(data[key]);
+                                    break;
+                                }
+                            }
+                        }
+                    });
+
+                    return false;
                 });
 
-                this.$userCenterPage.on('input', '.edit-item input', function(e) {
-                    var $target = $(e.currentTarget);
-                    var value = $target.val();
-                    var maxNumber = 10;
-                    if (value.length > maxNumber) {
-                        $target.val(value.slice(0, maxNumber))
+                $exchangeBox.on('click', '.exchange-btn button', function() {
+                    var num = $exchangeBox.find('.exchange-num').val();
+                    var alipayAcc = $exchangeBox.find('.exchange-alipay').val();
+
+                    if (!num) {
+                        utils.warn('请填写需要兑换的米币值');
+                        return false;
                     }
-                    var $editItem = $target.closest('.edit-item');
-                    $editItem.find('.display-text').html($target.val())
-                });
 
-                this.$userCenterPage.on('change', '.upload-image', function(e) {
-                    var $target = $(e.currentTarget);
-                });
+                    if (!rAlipay.test(alipayAcc)) {
+                        utils.warn('余额宝账号格式不对');
+                        return false;
+                    }
+                    zhaomi.postData('/mine/exchange', {
+                        num: num,
+                        alipay: alipayAcc
+                    }, function(res) {
+                        var success = res && res.success;
+                        var data = res && res.data;
+
+                        $otherMsg.show();
+                        $exchangeBox.hide();
+
+                        if (success) {
+                            $userMsg.find('.mibi').text(data.coin + '米币');
+                            utils.warn('兑换成功，米币还剩' + data.coin);
+                        } else {
+                            for (var key in data) {
+                                utils.warn(data[key]);
+                                return false;
+                            }
+                        }
+                    })
+                })
             }
 
             // 活动信息中的各种操作
@@ -145,7 +215,7 @@ $(function() {
                         if (success) {
                             location.href = '/mine/start';
                         }
-                    });    
+                    }); 
                 }
             }).on('click', '.activity-list-item .unapply', function() {
                 var $actionCard = $(this).closest('.activity-list-item');
@@ -164,95 +234,40 @@ $(function() {
                 }
             });
 
-            $form.submit(function() {
+            var fullDataReturned = true;
+            var from = 12, size = 12;
 
-                var name = $('#info-name').val();
-                var mobile = $('#info-mobile').val();
-                var gender = $('#info-gender').val();
-                var bday = $('#info-bday').val();
+            // 加载更多
+            $('.more-btn').click(function() {
 
-                $(this).ajaxSubmit({
-                    beforeSubmit: function(formData, jqForm, options) {
-                        
-                        if (!name) {
-                            utils.warn('请填写姓名!');
-                            return false;
-                        }
+                var $moreBtn = $(this);
 
-                        // if (!mobile) {
-                        //     utils.warn('请填写手机号!');
-                        //     return false;
-                        // }
-
-                        if (!gender || (gender !== '男' && gender !== '女')) {
-                            utils.warn('请正确填写性别!');
-                            return false;
-                        }
-
-                        if (!bday || !/\d{4}\-\d{2}-\d{2}/.test(bday)) {
-                            utils.warn('请选择生日，格式为1990-01-01!');
-                            return false;
-                        }
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        var success = res && res.success;
-                        var data = res && res.data;
-                        
-                        if (success) {
-                            
-                            var $userMsg = $('.content');
-                            $userMsg.removeClass('editing');
-
-                            for (var key in data) {
-                                if (key === 'portrait' && data[key]) {
-                                    $personalInfo.find('#portrait-origin img')
-                                        .attr('src', data[key]);
-                                } else {
-                                    $personalInfo.find('#' + key).text(data[key]);    
-                                }
-                            }
+                $.ajax({
+                    url: utils.getJSONPUrl(from, size),
+                    dataType: 'jsonp',
+                    success: function(data) {
+                        data = data || {};
+                        if (data.size === size) {
+                            fullDataReturned = true;
+                            from = from + size;
                         } else {
-                            for (var key in data) {
-                                utils.warn(data[key]);
-                                break;
-                            }
+                            fullDataReturned = false;
+                            $moreBtn.parent().addClass('no-more');
                         }
+                        
+                        $('.activity-lists').append(data.html);
+                        
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown)
                     }
                 });
-
-                return false;
-            });
+            })
         }
-    }.init());
+    };
 
-    var fullDataReturned = true;
-    var from = 12, size = 12;
+    main.init();
 
-    $('.more-btn').click(function() {
-
-        var $moreBtn = $(this);
-
-        $.ajax({
-            url: utils.getJSONPUrl(from, size),
-            dataType: 'jsonp',
-            success: function(data) {
-                data = data || {};
-                if (data.size === size) {
-                    fullDataReturned = true;
-                    from = from + size;
-                } else {
-                    fullDataReturned = false;
-                    $moreBtn.parent().addClass('no-more');
-                }
-                
-                $('.activity-lists').append(data.html);
-                
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown)
-            }
-        });
-    })
+    
 
 });

@@ -116,41 +116,6 @@ $(function() {
         },
 
         initFormEvent: function() {
-            var that = this;
-            $createActionStep.on('blur', 'input, textarea', function(e) {
-                var $this = $(e.currentTarget);
-                ValidateForm.checkInput($this);
-            });
-            $createActionStep.submit(function() {
-
-                $(this).ajaxSubmit({
-                    beforeSubmit: function(formData, jqForm, options) {
-                        return ValidateForm.checkForm($createActionStep);
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        var success = res && res.success;
-                        var data = res && res.data;
-
-                        if (success) {
-                            if (data.url) {
-                                location.href = data.url;
-                            }
-                        } else {
-                            for (var key in data) {
-                                // $('#' + key).removeClass('focus').addClass('err');
-                                common.warn(data[key]);
-                                break;
-                            }
-                        }
-                    },
-                    error: function() {
-                        console.error('擦了，创建活动提交失败~')
-                    }
-                });
-
-                return false;
-            })
 
             $('#publish').click(function() {
                 $form.ajaxForm({
@@ -230,6 +195,8 @@ $(function() {
         var prov = prov_city.split(' ')[0];
         var city = prov_city.split(' ')[1];
         var addr = $('#other-local-msg').val();
+        var startDate = $('#start-date').val();
+        var endDate = $('#end-date').val();
         var durationDay = $('#id_day').val();
         var durationHour = $('#id_hour').val();
         var durationMin = $('#id_minute').val();
@@ -256,20 +223,28 @@ $(function() {
                     return false;
                 }
 
-                
-
                 if (!addr) {
                     utils.warn('请填写具体的地址!');
                     return false;
                 }
 
-                if (durationDay === '') {
-                    utils.warn('请填写持续天数!');
+                if (!startDate) {
+                    utils.warn('请选择开始时间!');
                     return false;
                 }
 
-                if (+durationDay < 0) {
-                    utils.warn('天数应该大于等于0天!');
+                if (!endDate) {
+                    utils.warn('请选择结束时间!');
+                    return false;
+                }
+
+                if (startDate > endDate) {
+                    utils.warn('开始时间不能晚于结束时间!');
+                    return false;
+                }
+
+                if (durationDay !== '' && +durationDay < 0) {
+                    utils.warn('持续天数应该大于等于0天!');
                     return false;
                 }
 
@@ -279,7 +254,7 @@ $(function() {
                 }
 
                 if (+durationHour < 0 || +durationHour > 23) {
-                    utils.warn('小时数不合法!');
+                    utils.warn('小时数应该大于等于0并且小于24!');
                     return false;
                 }
 
@@ -289,12 +264,12 @@ $(function() {
                 }
 
                 if (+durationMin < 0 || +durationMin > 59) {
-                    utils.warn('分钟数不合法!');
+                    utils.warn('分钟数应该大于等于0并且小于60!');
                     return false;
                 }
 
                 if (maxAttendee === '') {
-                    utils.warn('请填写持续分钟数!');
+                    utils.warn('请填写参加人数!');
                     return false;
                 }
 
