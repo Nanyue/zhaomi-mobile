@@ -235,7 +235,7 @@ $(function() {
             });
 
             var fullDataReturned = true;
-            var from = 12, size = 12;
+            var start = 12, size = 12;
 
             // 加载更多
             $('.more-btn').click(function() {
@@ -243,13 +243,13 @@ $(function() {
                 var $moreBtn = $(this);
 
                 $.ajax({
-                    url: utils.getJSONPUrl(from, size),
+                    url: utils.getJSONPUrl(start, size),
                     dataType: 'jsonp',
                     success: function(data) {
                         data = data || {};
                         if (data.size === size) {
                             fullDataReturned = true;
-                            from = from + size;
+                            start = start + size;
                         } else {
                             fullDataReturned = false;
                             $moreBtn.parent().addClass('no-more');
