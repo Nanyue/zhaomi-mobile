@@ -144,18 +144,18 @@ $(function() {
             }
 
             // 活动信息中的各种操作
-            $list.on('click', '.activity-list-item .title', function() {
+            $list.on('click', '.activity-list-item .list-item', function() {
                 var $actionCard = $(this).closest('.activity-list-item');
                 var shareLink = $actionCard.data('link');
                 var detailLink = $actionCard.data('detail');
 
                 if (shareLink || detailLink) {
-                    window.open(shareLink || detailLink, '_blank');
+                    location.href = shareLink || detailLink;    
                 }
             }).on('click', '.activity-list-item .edit', function() {
                 var action = $(this).data('action');
                 if (action) {
-                    window.location.href = action;    
+                    location.href = action;    
                 }
             }).on('click', '.activity-list-item .duplicate, .activity-list-item .delete', function() {
                 var action = $(this).data('action');
