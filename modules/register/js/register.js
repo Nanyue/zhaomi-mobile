@@ -61,6 +61,10 @@ $(function() {
     };
     main.init();
 
+    $('.upload-img-box input').change(function() {
+        $(this).parent().siblings('span').css('visibility', 'visible');
+    });
+
     // 注册第一步
     $('#register-form').submit(function() {
 

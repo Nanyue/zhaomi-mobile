@@ -155,13 +155,24 @@ body{
   height: @value;
   .border-radius(@value);
   display: block;
-  overflow: hidden;
+  overflow: visible;
   margin: 0 auto;
   position: relative;
   img{
     display: block;
     width: 100%;
     height: 100%;
+  }
+  span {
+    visibility: hidden;
+    position: absolute;
+    top: 60px;
+    left: 90px;
+    display: inline-block;
+    color: green;
+    width: 100px;
+    font-weight: 700;
+    font-size: 14px;
   }
 }
 #upload-image{

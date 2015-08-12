@@ -59,6 +59,8 @@ $(function() {
                 $userMsg.on('click', '.exchange', function() {
                     $otherMsg.hide();
                     $exchangeBox.show();
+                }).on('click', '.share', function() {
+                    utils.warn('请使用浏览器分享功能分享当前页面！');
                 });
 
                 $form.submit(function() {
