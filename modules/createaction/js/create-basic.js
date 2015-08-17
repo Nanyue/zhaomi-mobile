@@ -414,7 +414,7 @@ $(function() {
                     return false;
                 }
 
-                if (poster && !/\.(jpg|png)$/.test(poster)) {
+                if (poster && !/\.(jpg|jpeg|png)$/.test(poster)) {
                     utils.warn('活动海报海报仅支持png/jpg格式的文件!');
                     return false;
                 }

@@ -6,6 +6,7 @@ var common = require('../../../lib/common/common.js');
 var zhaomi = common;
 var utils = common;
 var rAlipay = /^\w+$/;
+var rValidImg = /\.(jpg|jpeg|png)$/;
 
 $(function() {
 
@@ -55,12 +56,33 @@ $(function() {
                 var $form = $('#personal-info-form');
                 var $exchangeBox = $('#exchange-box');
                 var $otherMsg = $('.other-msg');
+                var $bottom = $('.bottom');
 
                 $userMsg.on('click', '.exchange', function() {
                     $otherMsg.hide();
                     $exchangeBox.show();
+                    $bottom.hide();
+
                 }).on('click', '.share', function() {
                     utils.warn('请使用浏览器分享功能分享当前页面！');
+                });
+
+                $('.upload-img-box input').change(function(evt) {
+                    var portrait = $(this).val();
+                    var files, $uploadImgBox, objectUrl;
+
+                    if (portrait && !rValidImg.test(portrait)) {
+                        utils.warn('请上传png/jpg图片！');
+                        return false;
+                    }
+
+                    if (window.URL && window.URL.createObjectURL) {
+                        $uploadImgBox = $(this).closest('.upload-img-box');
+                        
+                        objectUrl = window.URL.createObjectURL($(this)[0].files[0]);
+                        $uploadImgBox.find('img').attr('src', objectUrl);
+                        $('.nav .user img').attr('src', objectUrl);
+                    }
                 });
 
                 $form.submit(function() {
@@ -131,6 +153,7 @@ $(function() {
 
                         $otherMsg.show();
                         $exchangeBox.hide();
+                        $bottom.show();
 
                         if (success) {
                             $userMsg.find('.mibi').text(data.coin + '米币');
@@ -161,17 +184,19 @@ $(function() {
                 }
             }).on('click', '.activity-list-item .duplicate, .activity-list-item .delete', function() {
                 var action = $(this).data('action');
-                if (action) {
-                    zhaomi.postData(action, {}, function(res) {
-                        var success = res && res.success;
-                        var data = res && res.data;
-                        
-                        if (success) {
-                            if (data.url) {
-                                location.href = data.url;  
-                            } 
-                        }
-                    });
+                if (confirm('确定要删除该活动？')) {
+                    if (action) {
+                        zhaomi.postData(action, {}, function(res) {
+                            var success = res && res.success;
+                            var data = res && res.data;
+                            
+                            if (success) {
+                                if (data.url) {
+                                    location.href = data.url;  
+                                } 
+                            }
+                        });
+                    }
                 }
             }).on('click', '.activity-list-item .publish', function() {
                 var $actionCard = $(this).closest('.activity-list-item');

@@ -56,10 +56,9 @@ $(function() {
                 return false;
             });
             $banner.on('click', '.like', function() {
-                var $like = $(this);
+                var $like = $(this).find('i');
                 var $actionCard = $(this).closest('.banner');
                 var actionId = $actionCard.data('id');
-                
                 zhaomi.postData('/action/like', {
                     id: actionId
                 }, function(res) {

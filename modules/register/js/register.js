@@ -4,6 +4,8 @@ var common = require('../../../lib/common/common.js');
 var utils = common;
 var zhaomi = common;
 
+var rValidImg = /\.(jpg|jpeg|png)$/;
+
 $(function() {
     var $pageRegister = $('#pageRegister');
     var $pageLogin = $('#pageLogin');
@@ -61,8 +63,23 @@ $(function() {
     };
     main.init();
 
-    $('.upload-img-box input').change(function() {
-        $(this).parent().siblings('span').css('visibility', 'visible');
+    $('.upload-img-box input').change(function(evt) {
+        var portrait = $(this).val();
+        var files, $uploadImgBox, objectUrl;
+
+        if (portrait && !rValidImg.test(portrait)) {
+            utils.warn('请上传png/jpg图片！');
+            return false;
+        }
+
+        if (window.URL && window.URL.createObjectURL) {
+            $uploadImgBox = $(this).closest('.upload-img-box');
+            
+            objectUrl = window.URL.createObjectURL($(this)[0].files[0]);
+            $uploadImgBox.find('img').attr('src', objectUrl);
+        } else {
+            $(this).parent().siblings('span').css('visibility', 'visible');    
+        }
     });
 
     // 注册第一步
@@ -136,6 +153,7 @@ $(function() {
 
     // 注册第二步
     $('#register').submit(function() {
+        var portrait = $('#upload-image').val();
         var code = $('#verifycode').val();
         var name = $('#name').val();
         var gender = $('#gender').val();
@@ -143,6 +161,11 @@ $(function() {
 
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, jqForm, options) {
+                if (portrait && !rValidImg.test(portrait)) {
+                    utils.warn('请上传png/jpg图片！');
+                    return false;
+                }
+
                 if (!code) {
                     utils.warn('请填写验证码!');
                     return false;
