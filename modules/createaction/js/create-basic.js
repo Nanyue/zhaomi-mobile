@@ -36,7 +36,7 @@ $(function() {
         initEvent: function() {
             this.initCheckForm();
             this.initFormEvent();
-            this.initDatePicker();
+            this.initDatePickers();
             this.initFastClick();
         },
         initFastClick: function() {
@@ -47,15 +47,13 @@ $(function() {
             }
 
         },
-        initDatePicker: function() {
+        initDatePickers: function() {
             var $appDate = $(".select-date-time");
-            var that = this;
+            var $startDate = $('#start-date');
+            var $endDate = $('#end-date');
 
-            $appDate.each(function(index, item) {
-                var $item = $(item);
-                var type = $item.data('time-type');
-                initDatePicker($item, type);
-            });
+            initStartDatePicker();
+            initEndDatePicker();
 
             $('.start-date-lbl').click(function() {
                 $('#start-date').mobiscroll('show');
@@ -65,21 +63,15 @@ $(function() {
                 $('#end-date').mobiscroll('show');
             })
 
-            function initDatePicker(obj, type) {
-                if (!type) {
-                    type = 'datetime';
-                }
-                var obj = $(obj);
-                if (!obj.length) {
-                    return;
-                }
+            function initStartDatePicker() {
+                
                 var currYear = (new Date()).getFullYear();
                 var opt = {};
                 opt.date = {
                     preset: 'date'
                 };
                 opt.datetime = {
-                    preset: type
+                    preset: 'datetime'
                 };
                 opt.time = {
                     preset: 'time'
@@ -93,66 +85,90 @@ $(function() {
                     lang: 'zh',
                     showNow: true,
                     nowText: "今天",
-                    // startYear: currYear - 10, //开始年份
-                    // endYear: currYear + 10,//结束年份,
-                    onSelect: (function(target) {
-                        return function(val) {
+                    minDate: new Date(),
+                    onSelect: function(selectedStartDate) {
                             
-                            // var endValue = $appDate.eq(1).val();
-                            // var startValue = $appDate.eq(0).val();
-                            // if (endValue && startValue >= endValue) {
-                            //     ValidateForm.showValidateResult($appDate.eq(1), '开始时间要大于结束时间');
-                            //     return false;
-                            // } else {
-                            //     ValidateForm.hideValidateResult($appDate.eq(1));
-                            // }
-                            // $('.select-date-time').removeClass('Validform_error');
+                        var startDate = $startDate.val();
+                        var day = $('#id_day').val() || 0;
+                        var hour = $('#id_hour').val() || 0;
+                        var minute = $('#id_minute').val() || 0;
+                        var $endDate = $('#end-date');
+                        var endDate = $endDate.val();
+                        var diffObj;
 
-                            var id = target.attr('id');
-                            var $startDate = $('#start-date');
-                            var startDate = $startDate.val();
-                            var day = $('#id_day').val() || 0;
-                            var hour = $('#id_hour').val() || 0;
-                            var minute = $('#id_minute').val() || 0;
-                            var $endDate = $('#end-date');
-                            var endDate = $endDate.val();
-                            var diffObj;
+                        $startDate.siblings('span').removeClass('ph').text(selectedStartDate);
 
-                            target.siblings('span').removeClass('ph').text(val);
-
-                            if (id === 'end-date') {
-                                if (!isDurationEmpty(day, hour, minute)) {
-                                    startDate = getOppositeDate(endDate, -day, -hour, -minute);
-                                    $startDate.val(startDate);
-                                    $startDate.siblings('span').removeClass('ph').text(startDate);
-                                } else {
-                                    if (startDate) {
-                                        diffObj = getDiff(startDate, endDate);
-                                        $('#id_day').val(diffObj.day);
-                                        $('#id_hour').val(diffObj.hour);
-                                        $('#id_minute').val(diffObj.minute);    
-                                    }
-                                }
-                            } else if (id === 'start-date') {
-                                if (!isDurationEmpty(day, hour, minute)) {
-                                    endDate = getOppositeDate(startDate, day, hour, minute);
-                                    $endDate.val(endDate);
-                                    $endDate.siblings('span').removeClass('ph').text(endDate);
-                                } else {
-                                    if (endDate) {
-                                        diffObj = getDiff(startDate, endDate);
-                                        $('#id_day').val(diffObj.day);
-                                        $('#id_hour').val(diffObj.hour);
-                                        $('#id_minute').val(diffObj.minute);    
-                                    }
-                                }
+                        if (!isDurationEmpty(day, hour, minute)) {
+                            endDate = getOppositeDate(startDate, day, hour, minute);
+                            $endDate.val(endDate);
+                            $endDate.siblings('span').removeClass('ph').text(endDate);
+                        } else {
+                            if (endDate) {
+                                diffObj = getDiff(startDate, endDate);
+                                $('#id_day').val(diffObj.day);
+                                $('#id_hour').val(diffObj.hour);
+                                $('#id_minute').val(diffObj.minute);    
                             }
                         }
-                    })(obj)
+                        initEndDatePicker(new Date(selectedStartDate));
+                    }
                 };
                 var optDateTime = $.extend(opt['datetime'], opt['default']);
-                obj.mobiscroll().datetime(optDateTime);
-                // obj.mobiscroll('show');
+                $startDate.mobiscroll().datetime(optDateTime);
+            }
+
+            function initEndDatePicker(minDate) {
+                
+                var currYear = (new Date()).getFullYear();
+                var opt = {};
+                opt.date = {
+                    preset: 'date'
+                };
+                opt.datetime = {
+                    preset: 'datetime'
+                };
+                opt.time = {
+                    preset: 'time'
+                };
+                opt.default = {
+                    theme: 'android-ics light', //皮肤样式
+                    display: 'modal', //显示方式
+                    mode: 'scroller', //日期选择模式
+                    dateFormat: 'yy-mm-dd',
+                    timeFormat: 'HH:ii',
+                    lang: 'zh',
+                    showNow: true,
+                    nowText: "今天",
+                    minDate: minDate,
+                    // startYear: currYear - 10, //开始年份
+                    // endYear: currYear + 10,//结束年份,
+                    onSelect: function(val) {
+                            
+                        var startDate = $startDate.val();
+                        var day = $('#id_day').val() || 0;
+                        var hour = $('#id_hour').val() || 0;
+                        var minute = $('#id_minute').val() || 0;
+                        var endDate = $endDate.val();
+                        var diffObj;
+
+                        $endDate.siblings('span').removeClass('ph').text(val);
+
+                        if (!isDurationEmpty(day, hour, minute)) {
+                            startDate = getOppositeDate(endDate, -day, -hour, -minute);
+                            $startDate.val(startDate);
+                            $startDate.siblings('span').removeClass('ph').text(startDate);
+                        } else {
+                            if (startDate) {
+                                diffObj = getDiff(startDate, endDate);
+                                $('#id_day').val(diffObj.day);
+                                $('#id_hour').val(diffObj.hour);
+                                $('#id_minute').val(diffObj.minute);    
+                            }
+                        }
+                    }
+                };
+                var optDateTime = $.extend(opt['datetime'], opt['default']);
+                $endDate.mobiscroll().datetime(optDateTime);
             }
 
         },
