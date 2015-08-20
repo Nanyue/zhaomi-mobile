@@ -22,7 +22,7 @@ $(function() {
         },
         initLinkUrl: function($obj) {
 
-            $obj.on('click', '.tab-content-item a', function() {
+            $obj.on('touchend', '.tab-content-item a', function() {
                 var typeName = $(this).closest('ul').data('type-name');
                 var newParams = {};
                 newParams[typeName] = $(this).data('type');
