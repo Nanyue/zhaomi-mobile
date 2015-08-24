@@ -136,19 +136,44 @@ $(function() {
     })
     
     // 第二步注册
-    $('#sendcode').click(function() {
+    $('.input-verifycode').on('click', '#sendcode', function() {
+
+        var $wrapper = $(this).closest('.input-verifycode');
+        if ($wrapper.hasClass('disabled')) {
+            return;
+        }
+
         var mobile = $('#mobile').val();
 
         if (!mobile) {
             utils.warn('请先填写电话号码！');
             return false;
         }
-
+countdown($wrapper);
         zhaomi.postData('/sendcode', {
             mobile: mobile
         }, function() {
-            utils.warn('已发送验证码!');
+            countdown($wrapper);
         })
+
+        function countdown(wrapper) {
+            var $sendCode = wrapper.find('#sendcode');
+            var iId;
+            var numCD = 60;
+
+            wrapper.addClass('disabled');
+            $sendCode.text('重新发送(' + --numCD + ')');
+
+            iId = setInterval(function() {
+                if (numCD <= 0) {
+                    clearInterval(iId);
+                    wrapper.removeClass('disabled');
+                    $sendCode.text('重新发送');
+                } else {
+                    $sendCode.text('重新发送(' + --numCD + ')');
+                }
+            }, 1000);
+        }
     })
 
     // 注册第二步

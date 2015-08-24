@@ -53,7 +53,7 @@ $(function() {
             var $endDate = $('#end-date');
 
             initStartDatePicker();
-            initEndDatePicker();
+            // initEndDatePicker();
 
             $('.start-date-lbl').click(function() {
                 $('#start-date').mobiscroll('show');
@@ -86,6 +86,7 @@ $(function() {
                     showNow: true,
                     nowText: "今天",
                     minDate: new Date(),
+                    endYear: currYear + 10,
                     onSelect: function(selectedStartDate) {
                             
                         var startDate = $startDate.val();
@@ -110,14 +111,14 @@ $(function() {
                                 $('#id_minute').val(diffObj.minute);    
                             }
                         }
-                        initEndDatePicker(new Date(selectedStartDate));
+                        initEndDatePicker(new Date(moment(selectedStartDate, FORMAT).valueOf()));
                     }
                 };
                 var optDateTime = $.extend(opt['datetime'], opt['default']);
                 $startDate.mobiscroll().datetime(optDateTime);
             }
 
-            function initEndDatePicker(minDate) {
+            function initEndDatePicker(minimumDate) {
                 
                 var currYear = (new Date()).getFullYear();
                 var opt = {};
@@ -139,7 +140,8 @@ $(function() {
                     lang: 'zh',
                     showNow: true,
                     nowText: "今天",
-                    minDate: minDate,
+                    minDate: minimumDate || new Date(),
+                    endYear: currYear + 10,
                     // startYear: currYear - 10, //开始年份
                     // endYear: currYear + 10,//结束年份,
                     onSelect: function(val) {
