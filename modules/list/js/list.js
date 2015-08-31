@@ -22,7 +22,9 @@ $(function() {
         },
         initLinkUrl: function($obj) {
 
-            $obj.on('touchend', '.tab-content-item a', function() {
+            $obj.on('touchend', '.tab-content-item a', function(e) {
+                e.preventDefault();
+                
                 var typeName = $(this).closest('ul').data('type-name');
                 var newParams = {};
                 newParams[typeName] = $(this).data('type');
@@ -38,6 +40,7 @@ $(function() {
                 $cateList.on('touchend', '.tab .tab-item', function(e) {
                     if (!isInitLink) {
                         that.initLinkUrl($cateList);
+                        isInitLink = true;
                     }
 
                     var $target = $(e.currentTarget);

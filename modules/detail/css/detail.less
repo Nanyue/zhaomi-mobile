@@ -3,6 +3,14 @@
 #pageDetail{
   .main{
     padding: 0 10px;
+    &.finished {
+      .title {
+        color: #b4b4b4;
+      }
+      .btn-submit {
+        background-color: #b4b4b4;
+      }
+    }
   }
   .title{
     font-size: 25px;
@@ -42,12 +50,17 @@
       right: 0;
       top: 2px;
       font-size: 12px;
-      width: 100px;
       text-align: right; 
-
       .hot{
         display: inline-block;
         background-color: #ff7979;
+        color: #fff;
+        padding: 2px 5px;
+        line-height: 20px;
+      }
+      .finished{
+        display: inline-block;
+        background-color: #b4b4b4;
         color: #fff;
         padding: 2px 5px;
         line-height: 20px;

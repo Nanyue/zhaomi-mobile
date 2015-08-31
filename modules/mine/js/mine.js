@@ -64,7 +64,7 @@ $(function() {
                     $bottom.hide();
 
                 }).on('click', '.share', function() {
-                    utils.warn('请使用浏览器分享功能分享当前页面！');
+                    utils.warn('请在保证登录后，通过浏览器自带分享功能分享！');
                 });
 
                 $('.upload-img-box input').change(function(evt) {

@@ -25,6 +25,26 @@ $(function() {
                 var data = collectData();
                 $(this).ajaxSubmit({
                     beforeSubmit: function() {
+
+                        var $fileInputs = $('input[type="file"]');
+                        var isValid = true;
+
+                        if (!common.isLogin()) {
+                            location.href = '/login?next=' + encodeURI(location.href);
+                        }
+
+                        for (var i = 0, leni = $fileInputs.length; i < leni; i++) {
+                            if (!$fileInputs.eq(i).data('valid')) {
+                                isValid = false;
+                                break;
+                            }
+                        }
+
+                        if (!isValid) {
+                            common.warn('请上传png/jpg图片！');
+                            return false;
+                        }
+
                         if ($('.content .item').length !== data.length) {
                            common.warn('有题目未作答！')
                            return false;
@@ -78,6 +98,15 @@ $(function() {
                         }
                     }
                 })
+            })
+
+            var rValidImg = /\.(jpg|jpeg|png)$/;
+            $('input[type="file"]').on('change', function() {
+                if (rValidImg.test($(this).val())) {
+                    $(this).data('valid', true);
+                } else {
+                    common.warn('请上传png/jpg图片！');
+                }
             })
         }
     };

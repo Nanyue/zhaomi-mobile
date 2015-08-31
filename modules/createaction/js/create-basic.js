@@ -53,7 +53,7 @@ $(function() {
             var $endDate = $('#end-date');
 
             initStartDatePicker();
-            // initEndDatePicker();
+            initEndDatePicker();
 
             $('.start-date-lbl').click(function() {
                 $('#start-date').mobiscroll('show');
