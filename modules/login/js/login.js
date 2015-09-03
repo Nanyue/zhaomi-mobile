@@ -17,20 +17,6 @@ $(function() {
             this.initEvent();
             this.initDatePicker();
 
-
-            //var modal = common.modal({
-            //    content: $('#tpl-zui-modal-content').html(),
-            //    countDown: {
-            //        time: 5,
-            //        text: '秒种后为您跳转到',
-            //        callback: function() {
-            //        }
-            //    }
-            //});
-
-            //modal.show();
-
-            //
             var modal2 = common.modal({
                 tipText: '申请成功',
                 sureBtnText: 'abc',
@@ -40,7 +26,6 @@ $(function() {
                 countDown: {
                     timeout: 2,
                     callback: function(){
-                        debugger;
                     }
                 },
                 isSimpleModal: true
