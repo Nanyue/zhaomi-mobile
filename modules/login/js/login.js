@@ -23,12 +23,8 @@ $(function() {
                 sureCallback: function(){
                     debugger;
                 },
-                countDown: {
-                    timeout: 2,
-                    callback: function(){
-                    }
-                },
-                isSimpleModal: true
+
+                isSimpleModal: false
             });
             modal2.show();
 

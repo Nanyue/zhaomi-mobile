@@ -38,6 +38,22 @@ $(function() {
             this.initFormEvent();
             this.initDatePickers();
             this.initFastClick();
+            this.initGift();
+        },
+        initGift: function() {
+            //礼品展示
+            $pageCreateAction.find('.active-gift').on('change', 'input', function(e){
+
+                var isChecked = $(e.currentTarget)[0].checked;
+                var $target =  $(e.currentTarget);
+                //if (isChecked) {
+                //    $target.closest('li').toggleClass('active')
+                //} else {
+                //    $target.closest('li').toggleClass('active')
+                //}
+
+                $target.closest('li').toggleClass('active')
+            });
         },
         initFastClick: function() {
             var $selectWrapper = $('.select-wrapper')
