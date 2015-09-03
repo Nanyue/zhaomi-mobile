@@ -2,6 +2,8 @@ require('../../../common/pkgs/button/button');
 var ValidateForm = require('../../../lib/common/validateform');
 require('../css/login');
 var common = require('../../../lib/common/common.js');
+
+
 var utils = common;
 
 $(function() {
@@ -13,7 +15,37 @@ $(function() {
     var main = {
         init: function() {
             this.initEvent();
-            this.initDatePicker()
+            this.initDatePicker();
+
+
+            //var modal = common.modal({
+            //    content: $('#tpl-zui-modal-content').html(),
+            //    countDown: {
+            //        time: 5,
+            //        text: '秒种后为您跳转到',
+            //        callback: function() {
+            //        }
+            //    }
+            //});
+
+            //modal.show();
+
+            //
+            var modal2 = common.modal({
+                tipText: '申请成功',
+                sureBtnText: 'abc',
+                sureCallback: function(){
+                    debugger;
+                },
+                countDown: {
+                    timeout: 2,
+                    callback: function(){
+                        debugger;
+                    }
+                },
+                isSimpleModal: true
+            });
+            modal2.show();
 
         },
         initDatePicker: function() {
