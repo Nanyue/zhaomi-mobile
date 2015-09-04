@@ -17,16 +17,37 @@ $(function() {
             this.initEvent();
             this.initDatePicker();
 
-            var modal2 = common.modal({
+            //var modal = common.modal({
+            //    tipText: '申请成功',
+            //    sureBtnText: '确定',
+            //    sureCallback: function(){
+            //    },
+            //    isSimpleModal: false
+            //});
+            //modal.show();
+
+
+            //var modal2 = common.modal({
+            //    tipText: '申请成功',
+            //    sureBtnText: '确定',
+            //    sureCallback: function(){
+            //    },
+            //    isSimpleModal: true
+            //});
+            //modal2.show();
+
+            var modal3 = common.modal({
                 tipText: '申请成功',
                 sureBtnText: 'abc',
                 sureCallback: function(){
                     debugger;
                 },
-
-                isSimpleModal: false
+                countDown: {
+                    timeout: 3
+                },
+                isSimpleModal: true
             });
-            modal2.show();
+            modal3.show();
 
         },
         initDatePicker: function() {
