@@ -595,10 +595,12 @@
 
 	    if (hasCountDown) {
 	        var timeIndex = 0;
+	        $modal.find('.zui-modal-actions').html('<div class="zui-align-center">' + countdownText + '</div>');
+
 	        var countDownTimer = setInterval(function(){
 	            timeIndex ++;
 	            //var countDownText = countDownTime - timeIndex  + ''  + countdownText;
-	            //$modal.find('.zui-modal-actions').html('<div class="zui-align-center">' + countDownText + '</div>');
+	            // $modal.find('.zui-modal-actions').html('<div class="zui-align-center">' + countdownText + '</div>');
 	            if (timeIndex >= countDown.timeout) {
 	                clearInterval(countDownTimer);
 	                destroyModal();

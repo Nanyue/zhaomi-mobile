@@ -64,15 +64,15 @@
 	            this.initEvent();
 	            this.initDatePicker();
 
-	            var modal = common.modal({
-	                tipText: '申请成功',
-	                sureBtnText: '确定',
-	                nextActionLink: 'abc',
-	                sureCallback: function(){
-	                },
-	                isSimpleModal: false
-	            });
-	            modal.show();
+	            //var modal = common.modal({
+	            //    tipText: '申请成功',
+	            //    sureBtnText: '确定',
+	            //    nextActionLink: 'abc',
+	            //    sureCallback: function(){
+	            //    },
+	            //    isSimpleModal: false
+	            //});
+	            //modal.show();
 
 
 	            //var modal2 = common.modal({
@@ -84,18 +84,19 @@
 	            //});
 	            //modal2.show();
 
-	            //var modal3 = common.modal({
-	            //    tipText: '申请成功',
-	            //    sureBtnText: 'abc',
-	            //    sureCallback: function(){
-	            //        debugger;
-	            //    },
-	            //    countDown: {
-	            //        timeout: 3
-	            //    },
-	            //    isSimpleModal: true
-	            //});
-	            //modal3.show();
+	            var modal3 = common.modal({
+	                tipText: '申请成功',
+	                sureBtnText: 'abc',
+	                sureCallback: function(){
+	                    debugger;
+	                },
+	                countDown: {
+	                    timeout: 3,
+	                    text: "将为您跳转到"
+	                },
+	                isSimpleModal: true
+	            });
+	            modal3.show();
 
 	        },
 	        initDatePicker: function() {
@@ -798,10 +799,12 @@
 
 	    if (hasCountDown) {
 	        var timeIndex = 0;
+	        $modal.find('.zui-modal-actions').html('<div class="zui-align-center">' + countdownText + '</div>');
+
 	        var countDownTimer = setInterval(function(){
 	            timeIndex ++;
 	            //var countDownText = countDownTime - timeIndex  + ''  + countdownText;
-	            //$modal.find('.zui-modal-actions').html('<div class="zui-align-center">' + countDownText + '</div>');
+	            // $modal.find('.zui-modal-actions').html('<div class="zui-align-center">' + countdownText + '</div>');
 	            if (timeIndex >= countDown.timeout) {
 	                clearInterval(countDownTimer);
 	                destroyModal();
