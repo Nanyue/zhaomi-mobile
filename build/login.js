@@ -64,14 +64,15 @@
 	            this.initEvent();
 	            this.initDatePicker();
 
-	            //var modal = common.modal({
-	            //    tipText: '申请成功',
-	            //    sureBtnText: '确定',
-	            //    sureCallback: function(){
-	            //    },
-	            //    isSimpleModal: false
-	            //});
-	            //modal.show();
+	            var modal = common.modal({
+	                tipText: '申请成功',
+	                sureBtnText: '确定',
+	                nextActionLink: 'abc',
+	                sureCallback: function(){
+	                },
+	                isSimpleModal: false
+	            });
+	            modal.show();
 
 
 	            //var modal2 = common.modal({
@@ -83,18 +84,18 @@
 	            //});
 	            //modal2.show();
 
-	            var modal3 = common.modal({
-	                tipText: '申请成功',
-	                sureBtnText: 'abc',
-	                sureCallback: function(){
-	                    debugger;
-	                },
-	                countDown: {
-	                    timeout: 3
-	                },
-	                isSimpleModal: true
-	            });
-	            modal3.show();
+	            //var modal3 = common.modal({
+	            //    tipText: '申请成功',
+	            //    sureBtnText: 'abc',
+	            //    sureCallback: function(){
+	            //        debugger;
+	            //    },
+	            //    countDown: {
+	            //        timeout: 3
+	            //    },
+	            //    isSimpleModal: true
+	            //});
+	            //modal3.show();
 
 	        },
 	        initDatePicker: function() {
