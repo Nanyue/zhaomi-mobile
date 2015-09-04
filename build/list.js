@@ -641,6 +641,7 @@
 	    var sureCallback = options.sureCallback || function(){};
 	    var cancelCallback = options.cancelCallback || function(){};
 	    var sureBtnText = options.sureBtnText || "确定";
+	    var nextActionLink = options.nextActionLink;
 	    var hasCountDown = false;
 
 	    if (typeof countDown == 'object') {
@@ -678,7 +679,7 @@
 
 	    var actionsContent =  '<div class="zui-modal-actions">' +
 	        '<div class="zui-align-center">' +
-	        '<div class="zui-btn">申请成为认证用户</div>' +
+	        '<a href="'+ nextActionLink +'" class="zui-btn">申请成为认证用户</a>' +
 	        '<div class="zui-modal-sure-btn tip-text">' + sureBtnText + '</div></div></div>' +
 	        '</div>';
 
