@@ -44,15 +44,20 @@ $(function() {
             //礼品展示
             $pageCreateAction.find('.active-gift').on('change', 'input', function(e){
 
-                var isChecked = $(e.currentTarget)[0].checked;
-                var $target =  $(e.currentTarget);
+                var isChecked = $(this)[0].checked;
+                var $target =  $(this);
+                var $li = $target.closest('li');
                 //if (isChecked) {
                 //    $target.closest('li').toggleClass('active')
                 //} else {
                 //    $target.closest('li').toggleClass('active')
                 //}
-
-                $target.closest('li').toggleClass('active')
+                if ($li.hasClass('active')) {
+                    $li.find('.input-gift input').attr('value', '');
+                    $li.removeClass('active');
+                } else {
+                    $li.addClass('active');
+                }
             });
         },
         initFastClick: function() {
@@ -193,56 +198,6 @@ $(function() {
 
         initFormEvent: function() {
 
-            $('#publish').click(function() {
-                $form.ajaxForm({
-                    dataType: 'json',
-                    success: function(res) {
-                        var success = res && res.success;
-                        var data = res && res.data;
-                        
-                        if (success) {
-                            if (data.url) {
-                                location.href = data.url;  
-                            } 
-                        } else {
-                            for (var key in data) {
-                                // $('#' + key).removeClass('focus').addClass('err');
-                                common.warn(data[key]);
-                                break;
-                            }
-                        }
-                    }
-                })
-
-                $form.submit();
-            });
-
-            $('#save').click(function() {
-                var actionUrl = $(this).data('action');
-
-                $form.ajaxForm({
-                    url: actionUrl,
-                    dataType: 'json',
-                    success: function(res) {
-                        var success = res && res.success;
-                        var data = res && res.data;
-                        
-                        if (success) {
-                            if (data.url) {
-                                location.href = data.url;  
-                            } 
-                        } else {
-                            for (var key in data) {
-                                // $('#' + key).removeClass('focus').addClass('err');
-                                common.warn(data[key]);
-                                break;
-                            }
-                        }
-                    }
-                })
-
-                $form.submit();
-            });
         },
         initCheckForm: function() {
             var $selectWrapper = $('.select-wrapper');
@@ -342,7 +297,6 @@ $(function() {
         }
     }
 
-    var $form = $('#create-action-final');
     $('#create-action-first').submit(function() {
         var name = $('#name').val();
         var host = $('#host').val();
@@ -357,9 +311,18 @@ $(function() {
         var durationMin = $('#id_minute').val();
         var maxAttendee = $('#id_max_attend').val();
         var bonus = $('#id_reward').val();
+        var presentChecked = $('#id_reward').closest('li').hasClass('active');
+        var present = $('#id_present').val();
         var desc = $('#desc').val();
         var actionType = $('#action-type').val();
         var poster = $('#poster').val();
+
+        var $nextBtnW = $(this).find('.next-w');
+        var $nextBtn = $nextBtnW.find('button');
+
+        if ($nextBtnW.hasClass('ing')) {
+            return false;
+        }
 
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, jqForm, options) {
@@ -438,6 +401,11 @@ $(function() {
                     return false;
                 }
 
+                if (presentChecked && !present) {
+                    utils.warn('请输入礼品详情!');
+                    return false;
+                }
+
                 if (!desc) {
                     utils.warn('请填写活动简介!');
                     return false;
@@ -452,6 +420,9 @@ $(function() {
                     utils.warn('活动海报海报仅支持png/jpg格式的文件!');
                     return false;
                 }
+
+                $nextBtnW.addClass('ing');
+                $nextBtn.text('上传中...');
             },
             dataType: 'json',
             data: {
@@ -470,6 +441,9 @@ $(function() {
                     for (var key in data) {
                         $('#' + key).removeClass('focus').addClass('err');
                         utils.warn(data[key]);
+
+                        $nextBtnW.removeClass('ing');
+                        $nextBtn.text('下一步');
                         break;
                     }
                 }
@@ -481,55 +455,4 @@ $(function() {
 
         return false;
     })
-
-    $('#publish').click(function() {
-        $form.ajaxForm({
-            dataType: 'json',
-            success: function(res) {
-                var success = res && res.success;
-                var data = res && res.data;
-                
-                if (success) {
-                    if (data.url) {
-                        location.href = data.url;  
-                    } 
-                } else {
-                    for (var key in data) {
-                        // $('#' + key).removeClass('focus').addClass('err');
-                        utils.warn(data[key]);
-                        break;
-                    }
-                }
-            }
-        })
-
-        $form.submit();
-    });
-
-    $('#save').click(function() {
-        var actionUrl = $(this).data('action');
-
-        $form.ajaxForm({
-            url: actionUrl,
-            dataType: 'json',
-            success: function(res) {
-                var success = res && res.success;
-                var data = res && res.data;
-                
-                if (success) {
-                    if (data.url) {
-                        location.href = data.url;  
-                    } 
-                } else {
-                    for (var key in data) {
-                        // $('#' + key).removeClass('focus').addClass('err');
-                        utils.warn(data[key]);
-                        break;
-                    }
-                }
-            }
-        })
-
-        $form.submit();
-    });
 });

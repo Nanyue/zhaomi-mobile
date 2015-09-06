@@ -173,16 +173,14 @@
         color: #727272;
         padding-bottom: 20px;
         border-bottom: 1px solid #ccc;
-
+        p {
+            line-height: 1.5;
+        }
     }
     font-size: 12px;
     .m-tag {
-        position: absolute;
-        right: 0;
-        top: 2px;
         font-size: 12px;
-        width: 100px;
-        text-align: right;
+        float: right;
         .hot{
             display: inline-block;
             background-color: #ff7979;
@@ -190,11 +188,13 @@
             padding: 2px 5px;
             line-height: 20px;
         }
-        .price{
-            display: inline-block;
-            background-color: #fff;
-            color: #ff7979;
-        }
+        
+    }
+    .price {
+        font-size: 24px;
+        display: inline-block;
+        background-color: #fff;
+        color: #ff7979;
     }
     .title-desc{
         height: 25px;
@@ -227,4 +227,12 @@
     //
     //}
 
+}
+
+.next-w {
+    &.ing {
+        button {
+            background-color: #cfcfcf;
+        }
+    }
 }

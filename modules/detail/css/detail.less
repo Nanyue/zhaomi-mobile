@@ -43,6 +43,7 @@
   .detail{
     .content {
       color: #727272;
+
     }
     font-size: 12px;
     .m-tag {
@@ -80,8 +81,13 @@
       position: relative;
 
     }
-  }
 
+  }
+  .content {
+    p {
+      line-height: 1.5;
+    }
+  }
   .concact-msg{
     padding: 5px 0;
     &>div{
@@ -145,5 +151,10 @@
     text-align: right;
 
     padding-bottom: 20px;
+    &.ing {
+      .btn-submit {
+        background-color: #cfcfcf;
+      }
+    }
   }
 }

@@ -7,7 +7,12 @@ $(function() {
 
   var $form = $('#create-action-final');
 
-  $('#publish').click(function() {
+  var $container = $(this).parents('.main');
+  var isVerified = $container.data('verified') === 'yes';
+  var verifiedAction = $container.data('verifiedaction');
+
+  $('#publish').click(function(e) {
+
       $form.ajaxForm({
           dataType: 'json',
           success: function(res) {
@@ -16,7 +21,16 @@ $(function() {
               
               if (success) {
                   if (data.url) {
-                      location.href = data.url;  
+                      var modal = common.modal({
+                         tipText: '发布成功',
+                         sureBtnText: '确定',
+                         verifiedAction: verifiedAction,
+                         sureCallback: function() {
+                            location.href = data.url;        
+                         },
+                         isSimpleModal: isVerified
+                      });
+                      modal.show();
                   } 
               } else {
                   for (var key in data) {
@@ -33,6 +47,9 @@ $(function() {
 
   $('#save').click(function() {
       var actionUrl = $(this).data('action');
+      var $container = $(this).parents('.main');
+      var isVerified = $container.data('verified') === 'yes';
+      var verifiedAction = $container.data('verifiedaction');
 
       $form.ajaxForm({
           url: actionUrl,
@@ -43,7 +60,16 @@ $(function() {
               
               if (success) {
                   if (data.url) {
-                      location.href = data.url;  
+                      var modal = common.modal({
+                         tipText: '保存成功',
+                         sureBtnText: '确定',
+                         verifiedAction: verifiedAction,
+                         sureCallback: function() {
+                            location.href = data.url;        
+                         },
+                         isSimpleModal: isVerified
+                      });
+                      modal.show(); 
                   } 
               } else {
                   for (var key in data) {
