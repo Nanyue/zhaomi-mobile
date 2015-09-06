@@ -29,9 +29,9 @@ $(function() {
                         var $fileInputs = $('input[type="file"]');
                         var isValid = true;
 
-                        if (!common.isLogin()) {
-                            location.href = '/login?next=' + encodeURI(location.href);
-                        }
+                        // if (!common.isLogin()) {
+                        //     location.href = '/login?next=' + encodeURI(location.href);
+                        // }
 
                         for (var i = 0, leni = $fileInputs.length; i < leni; i++) {
                             if (!$fileInputs.eq(i).data('valid')) {
