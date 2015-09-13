@@ -23,15 +23,23 @@ $(function() {
             });
             $formCondition.submit(function() {
                 var data = collectData();
+                var $applyBtn = $formCondition.find('.btn-submit');
+                var $applyBtnW = $applyBtn.parent();
+                
+                if ($applyBtnW.hasClass('ing')) {
+                    return false;
+                }
+
                 $(this).ajaxSubmit({
                     beforeSubmit: function() {
 
                         var $fileInputs = $('input[type="file"]');
                         var isValid = true;
 
-                        if (!common.isLogin()) {
-                            location.href = '/login?next=' + encodeURI(location.href);
-                        }
+
+                        // if (!common.isLogin()) {
+                        //     location.href = '/login?next=' + encodeURI(location.href);
+                        // }
 
                         for (var i = 0, leni = $fileInputs.length; i < leni; i++) {
                             if (!$fileInputs.eq(i).data('valid')) {
@@ -49,6 +57,9 @@ $(function() {
                            common.warn('有题目未作答！')
                            return false;
                         }
+
+                        $applyBtnW.addClass('ing');
+                        $applyBtn.text('报名中...');
                         // return ValidateForm.checkForm($formCondition);
                     },
                     dataType: 'json',
@@ -67,6 +78,9 @@ $(function() {
                             for (var key in data) {
                                 // $('#' + key).removeClass('focus').addClass('err');
                                 common.warn(data[key]);
+
+                                $applyBtnW.removeClass('ing');
+                                $applyBtn.text('报名');
                                 break;
                             }
                         }

@@ -113,7 +113,7 @@ $(function() {
                 
                 if (success) {
                     if (data.url) {
-                        location.href = data.url;  
+                        location.href = data.url;
                     } 
                 } else {
                     for (var key in data) {
@@ -149,7 +149,7 @@ $(function() {
             utils.warn('请先填写电话号码！');
             return false;
         }
-countdown($wrapper);
+
         zhaomi.postData('/sendcode', {
             mobile: mobile
         }, function() {
@@ -218,7 +218,17 @@ countdown($wrapper);
                 
                 if (success) {
                     if (data.url) {
-                        location.href = data.url;  
+                        var toast = common.modal({
+                            countDown: {
+                                timeout: 2,
+                                text: "注册成功，正在跳转…",
+                                callback: function() {
+                                    location.href = data.url;
+                                }
+                            },
+                            isSimpleModal: true
+                        });
+                        toast.show();
                     } 
                 } else {
                     for (var key in data) {

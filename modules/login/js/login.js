@@ -16,41 +16,6 @@ $(function() {
         init: function() {
             this.initEvent();
             this.initDatePicker();
-
-            //var modal = common.modal({
-            //    tipText: '申请成功',
-            //    sureBtnText: '确定',
-            //    nextActionLink: 'abc',
-            //    sureCallback: function(){
-            //    },
-            //    isSimpleModal: false
-            //});
-            //modal.show();
-
-
-            //var modal2 = common.modal({
-            //    tipText: '申请成功',
-            //    sureBtnText: '确定',
-            //    sureCallback: function(){
-            //    },
-            //    isSimpleModal: true
-            //});
-            //modal2.show();
-
-            var modal3 = common.modal({
-                tipText: '申请成功',
-                sureBtnText: 'abc',
-                sureCallback: function(){
-                    debugger;
-                },
-                countDown: {
-                    timeout: 3,
-                    text: "将为您跳转到"
-                },
-                isSimpleModal: true
-            });
-            modal3.show();
-
         },
         initDatePicker: function() {
             var $appDate = $("#appDate");

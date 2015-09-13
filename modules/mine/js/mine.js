@@ -182,9 +182,25 @@ $(function() {
                 if (action) {
                     location.href = action;    
                 }
-            }).on('click', '.activity-list-item .duplicate, .activity-list-item .delete', function() {
+            }).on('click', '.activity-list-item .delete', function() {
                 var action = $(this).data('action');
-                if (confirm('确定要删除该活动？')) {
+                if (confirm('确定要删除该活动吗？')) {
+                    if (action) {
+                        zhaomi.postData(action, {}, function(res) {
+                            var success = res && res.success;
+                            var data = res && res.data;
+                            
+                            if (success) {
+                                if (data.url) {
+                                    location.href = data.url;  
+                                } 
+                            }
+                        });
+                    }
+                }
+            }).on('click', '.activity-list-item .duplicate', function() {
+                var action = $(this).data('action');
+                if (confirm('确定要复制该活动吗？')) {
                     if (action) {
                         zhaomi.postData(action, {}, function(res) {
                             var success = res && res.success;
@@ -255,7 +271,17 @@ $(function() {
                         var success = res && res.success;
 
                         if (success) {
-                            location.href = '/mine/apply';
+                            var toast = common.modal({
+                                countDown: {
+                                    timeout: 2,
+                                    text: "取消申请成功，即将刷新页面…",
+                                    callback: function() {
+                                        location.href = '/mine/apply';
+                                    }
+                                },
+                                isSimpleModal: true
+                            });
+                            toast.show();
                         }
                     });    
                 }
