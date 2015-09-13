@@ -449,7 +449,9 @@ $(function() {
                 }
             },
             error: function() {
-                console.error('擦了，创建活动提交失败~')
+                console.error('擦了，创建活动提交失败~');
+                $nextBtnW.removeClass('ing');
+                $nextBtn.text('下一步');
             }
         });
 
