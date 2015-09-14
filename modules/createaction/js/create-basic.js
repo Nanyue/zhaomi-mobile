@@ -251,17 +251,17 @@ $(function() {
                 break;
         }      
 
-        if (isValid) {
-            if (startDate) {
-                endDate = getOppositeDate(startDate, day, hour, minute);
-                $endDate.val(endDate);
-                $endDate.siblings('span').removeClass('ph').text(endDate);
-            } else if (endDate) {
-                startDate = getOppositeDate(endDate, -day, -hour, -minute);
-                $startDate.val(startDate);
-                $startDate.siblings('span').removeClass('ph').text(startDate);
-            }
-        }
+        // if (isValid) {
+        //     if (startDate) {
+        //         endDate = getOppositeDate(startDate, day, hour, minute);
+        //         $endDate.val(endDate);
+        //         $endDate.siblings('span').removeClass('ph').text(endDate);
+        //     } else if (endDate) {
+        //         startDate = getOppositeDate(endDate, -day, -hour, -minute);
+        //         $startDate.val(startDate);
+        //         $startDate.siblings('span').removeClass('ph').text(startDate);
+        //     }
+        // }
     });
 
     function getOppositeDate(date, day, hour, minute) {
