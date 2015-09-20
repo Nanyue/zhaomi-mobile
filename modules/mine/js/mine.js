@@ -1,6 +1,5 @@
 require('../../../common/pkgs/button/button');
 require('../css/mine');
-var applyList = require('./apply-list');
 var common = require('../../../lib/common/common.js');
 
 var zhaomi = common;
@@ -12,7 +11,6 @@ $(function() {
 
     var $list = $('.activity-lists');
     var $form = $('#personal-info-form');
-    applyList.init();
 
     var main = {
         init: function() {

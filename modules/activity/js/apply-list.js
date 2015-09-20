@@ -4,22 +4,23 @@ var zhaomi = common;
 
 exports.init = function() {
     var btnMapper = {
-        'approve': '<button class="z-btn btn-passed" data-optype="approve">通过</button>',
-        'approve_cancel': '<button class="z-btn btn-passed" data-optype="approve_cancel">取消通过</button>',
-        'deny': '<button class="z-btn btn-refuse" data-optype="deny">拒绝</button>',
-        'deny_cancel': '<button class="z-btn btn-passed" data-optype="deny_cancel">取消拒绝</button>',
-        'finish': '<button class="z-btn btn-passed" data-optype="finish">确认完成</button>',
-        'finished': '<button class="z-btn btn-passed" data-optype="finished">已完成</button>',
-        'denied': '<button class="z-btn btn-refuse">已谢绝</button>'
+        'approve': '<button class="zui-btn zui-btn-action" data-optype="approve">通过</button>',
+        'approve_cancel': '<button class="zui-btn zui-btn-important" data-optype="approve_cancel">取消通过</button>',
+        'deny': '<button class="zui-btn zui-btn-important" data-optype="deny">拒绝</button>',
+        'deny_cancel': '<button class="zui-btn zui-btn-action" data-optype="deny_cancel">取消拒绝</button>',
+        'finish': '<button class="zui-btn zui-btn-action" data-optype="finish">确认完成</button>',
+        'finished': '<button class="zui-btn zui-btn-action" data-optype="finished">已完成</button>',
+        'denied': '<button class="zui-btn zui-btn-important">已谢绝</button>'
     }
 
     $('.mine-content').on('click', '.zui-btn', function() {
         var $applyItemCon = $(this).closest('.apply-item-content');
-        var $applyItem = $applyItemCon.parent('.apply-item');
+        var $applyItem = $applyItemCon.closest('.apply-item');
         var $container = $applyItem.closest('#mine-container');
         var opType = $(this).data('optype');
         var actionId = $container.data('action');
         var targetId = $applyItem.data('target');
+        var isFinished = $applyItem.data('status') === 'finished';
 
         switch (opType) {
             case 'deny':
@@ -43,9 +44,20 @@ exports.init = function() {
                 });
                 break;
             case 'finish':
-                post(opType, actionId, targetId, function() {
-                    addBtns(['finished']);
-                });
+                if (isFinished) {
+                    post(opType, actionId, targetId, function() {
+                        addBtns(['finished']);
+                    });    
+                } else {
+                    var toast = common.modal({
+                        countDown: {
+                            timeout: 2,
+                            text: '活动尚未结束，请结束后操作'
+                        },
+                        isSimpleModal: true
+                    });
+                    toast.show();   
+                }
                 break;
         }
 
@@ -82,25 +94,6 @@ exports.init = function() {
                 }
             });
         }
-    })
-
-    $('#apply-extra').on('click', '.export', function() {
-        var $container = $('#mine-container');
-        var action = $container.data('action');
-
-        zhaomi.postData('/mine/manage', {
-            optype: 'excel',
-            action: action
-        }, function(res) {
-            var success = res && res.success;
-            var data = res && res.data;
-            
-            if (success) {
-                if (data.url) {
-                    location.href = data.url;  
-                } 
-            }
-        })
     })
 
 }
