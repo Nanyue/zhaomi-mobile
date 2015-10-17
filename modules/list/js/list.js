@@ -79,10 +79,24 @@ $(function() {
         },
 
         initBanner: function($banner) {
-            $banner.height($(window).width() * 35 / 119);
-            $banner.unslider({
-                dots: true
+            var slide;
+            var data;
+            var numItems = $banner.find('img').length;
+            // alert($(window).width())
+            // $banner.height($(window).width() * 35 / 119);
+            slide = $banner.unslider({
+                speed: 600,
+                delay: 4000, 
+                dots: numItems > 1 ? true : false,
             });
+            $banner.height($(window).width() * 35 / 119);
+            data = slide.data('unslider')
+
+            // $banner.swipeLeft(function() {
+            //     data.next();
+            // }).swipeRight(function() {
+            //     data.prev();
+            // })
         },
 
         initEvents: function() {
